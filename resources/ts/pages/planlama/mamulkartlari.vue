@@ -5,9 +5,10 @@
         <DxContextMenu :data-source="menuItems" :width="200" target="#gridContainer" @item-click="itemClick" />
         <DxDataGrid id="gridContainer" ref="dataGridRef" @content-ready="onContentReady" :data-source="gridData"
           :show-borders="true" key-expr="ID" @editor-preparing="onEditorPreparing" :show-column-lines="true"
-          :show-row-lines="false" :row-alternation-enabled="true" :allow-column-reordering="true"
+          :show-row-lines="false" :row-alternation-enabled="false" :allow-column-reordering="true"
           @row-removed="onRowRemoved" :allow-column-resizing="true" @exporting="onExporting" :column-width="100"
-          :show-indicator="true" @row-updated="onRowUpdated" @row-inserted="onRowInserted" @init-new-row="initNewRow">
+          :show-indicator="true" @row-updated="onRowUpdated" @row-inserted="onRowInserted" @init-new-row="initNewRow"
+          @cell-prepared="onCellPrepared" :repaint-changes-only="true">
 
           <DxEditing :allow-updating="true" :allow-adding="true" :allow-deleting="true" :use-icons="true" mode="popup">
             <DxPopup :show-title="true" :shading="true" :width="700" :height="480" title="İş Emri" />
@@ -32,17 +33,20 @@
                   dataSource: ['Beklemede', 'Üretimde', 'Üretildi', 'İptal'],
                   value: 'Beklemede'
                 }" />
-                <DxItem data-field="AKTIF" editor-type="dxCheckBox"/>
+                <DxItem data-field="AKTIF" editor-type="dxCheckBox" />
               </DxItem>
             </DxForm>
           </DxEditing>
-
+          
           <!-- Özelleştirilmiş butonlar -->
           <DxColumn type="buttons" :width="70" :fixed="true" fixedPosition="right">
             <DxButton name="edit" icon="edit" />
             <DxButton name="delete" icon="trash" />
           </DxColumn>
-
+          
+          <DxColumn data-field="DURUM" caption="DURUM" data-type="string" cell-template="durumTemplate" :width="60" alignment="center"/>
+          <DxColumn data-field="AKTIF" caption="AKTİF" data-type="boolean" :visible="true" :width="60"
+          cell-template="aktifTemplate" />
           <DxColumn data-field="ID" data-type="number" caption="İE NO" :visible="true" sort-order="desc" :width="80" />
           <DxColumn :set-cell-value="setIstValue" data-field="ISTASYONID" caption="İSTASYON" :width="120"
             data-type="string">
@@ -76,7 +80,6 @@
               return formattedDate.replace(/\//g, '.');
             }
           }" />
-          <DxColumn data-field="DURUM" caption="DURUM" data-type="string" />
           <DxColumn data-field="NOTLAR" caption="NOTLAR" data-type="string" />
           <DxColumn data-field="PROSESNOT" caption="PROSES NOTU" width="100" data-type="string" :visible="true" />
           <DxColumn :set-cell-value="setOz1Value" data-field="OZELLIKKOD1" caption="ÖZELLİK 1" data-type="string">
@@ -90,8 +93,7 @@
           </DxColumn>
           <DxColumn data-field="ISTKOD" caption="İSTASYON KODU" data-type="string" />
           <DxColumn data-field="ISTTANIM" caption="İSTASYON ADI" data-type="string" :visible="false" />
-          <DxColumn data-field="AKTIF" caption="AKTİF" data-type="boolean" :visible="true"
-            cell-template="cellTemplate" />
+
 
           <DxStateStoring :enabled="true" type="localStorage" storage-key="storage" />
           <DxGroupPanel :visible="true" emptyPanelText="Gruplanacak sütunlar buraya..." />
@@ -121,7 +123,7 @@
 
 
 
-          <template #cellTemplate="{ data }">
+          <template #aktifTemplate="{ data }">
             <template v-if="data.value === 0">
               <VIcon size="24" icon="tabler-x" />
             </template>
@@ -129,6 +131,17 @@
               <VIcon size="24" icon="tabler-check" />
             </template>
           </template>
+
+          <template #durumTemplate="{ data }">
+            <template v-if="data.value === 'Üretimde'">
+              <VIcon size="24" icon="tabler-bolt" />
+            </template>
+            <template v-else>
+              <VIcon size="24" icon="tabler-clock" />
+            </template>
+          </template>
+
+
         </DxDataGrid>
       </VCard>
     </VRow>
@@ -183,6 +196,7 @@ import {
   DxTotalItem,
   DxColumnFixing,
 } from "devextreme-vue/data-grid";
+import { E } from "node_modules/unplugin-vue-router/dist/options-ChnxZdan.mjs";
 
 const pageTitleStore = usePageTitleStore();
 const userData = useCookie<any>('userData');
@@ -308,7 +322,23 @@ const initNewRow = (e: any) => {
   e.data.DURUM = 'Beklemede';
   e.data.AKTIF = true;
 };
-
+const onCellPrepared = (e: any) => {
+  if (e.rowType === "data" && e.column.dataField === "PLANLANANMIKTAR") {
+    if (e.data.URETIMMIKTAR == e.data.PLANLANANMIKTAR) {
+      e.cellElement.style.color = "white";
+      e.cellElement.style.fontWeight = "bold";
+      e.cellElement.style.backgroundColor = "#5caa53";
+    }
+  }
+  
+  if (e.rowType === "data" && e.column.dataField === "URETIMMIKTAR") {
+    if(e.data.URETIMMIKTAR > e.data.PLANLANANMIKTAR){
+      e.cellElement.style.color = "white";
+      e.cellElement.style.fontWeight = "bold";
+      e.cellElement.style.backgroundColor = "#c15353";
+    }
+  }
+}
 
 interface GridData {
   ID?: number | null;
@@ -464,6 +494,12 @@ function setOz3Value(
 
 
 
+    // // Tracks the `Amount` data field
+    // e.watch(function () {
+    //   return e.data.URETIMMIKTAR;
+    // }, function () {
+    //   e.cellElement.style.color = e.data.URETIMMIKTAR >= 100 ? "green" : "red";
+    // })
 
 
 

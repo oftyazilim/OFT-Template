@@ -29,6 +29,7 @@ Route::put('/datasil/{id}', [Emirler::class, 'kayitSil']);  // Silme işlemi
 Route::put('/data/{id}', [Emirler::class, 'update']);
 
 Route::post('/data', [Emirler::class, 'store']);  // Ekleme işlemi
+Route::put('/update-uretim', [Emirler::class, 'uretimKaydet']);  // Ekleme işlemi
 
 Route::group(['prefix' => 'auth'], function () {
   Route::post('login', [AuthController::class, 'login']);

@@ -5,30 +5,31 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Mamul extends Model
+class StokHrkt extends Model
 {
-  use HasFactory;
+    use HasFactory;
 
-  protected $table = 'OFTT_01_MAMULLER'; // Tablo ismini belirtiyoruz
+
+  protected $table = 'OFTT_01_STOKHRKT'; // Tablo ismini belirtiyoruz
 
   protected $primaryKey = 'ID'; // Eğer birincil anahtar 'ID' değilse, bunu belirtmelisiniz.
 
   protected $fillable = [
-    'KOD',
-    'TANIM',
-    'STGRPKOD',
-    'MMLGRPKOD',
-    'AKTIF',
-    'DUZENLEYENID',
-    'SINIF',
-    'SONDRMTARIH',
-    'OLUSTURMATARIH',
+    'TUR',
+    'STOKID',
+    'ISEMRIID',
     'MIKTAR',
-    'GIREN',
-    'CIKAN',
+    'BIRIM',
+    'ISTASYONID',
+    'KAYITTARIH',
+    'DUZENTARIH',
+    'OLUSTURANID',
+    'DUZENLEYENID',
     'SILINDI',
     'SILENID',
     'SILINMETARIH',
+    'NOTLAR',
+    'URETIMTARIH'
   ];
 
   public $timestamps = false; // Eğer tablonuzda created_at, updated_at gibi timestamp alanları yoksa bunu false yapmalısınız.

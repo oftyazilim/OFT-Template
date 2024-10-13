@@ -3,81 +3,26 @@
     <VRow>
       <VCard>
         <DxContextMenu :data-source="menuItems" :width="200" target="#gridContainer" @item-click="itemClick" />
-        <DxDataGrid id="gridContainer" key-expr="ID" ref="dataGridRef" @content-ready="onContentReady"
-          :data-source="gridData" :show-column-lines="true" :show-row-lines="false" :show-borders="true"
-          :row-alternation-enabled="false" :allow-column-reordering="true" :allow-column-resizing="true"
-          @row-inserted="onRowInserted" @row-inserting="onRowInserting" @exporting="onExporting"
-          @row-updated="onRowUpdated" @row-updating="onRowUpdating" :column-hiding-enabled="true"
-          @editing-start="onEditingStart">
+        <DxDataGrid id="gridContainer" ref="dataGridRef" @content-ready="onContentReady" :data-source="gridData"
+          :show-borders="true" key-expr="ID" @editor-preparing="onEditorPreparing" :show-column-lines="true"
+          :show-row-lines="false" :row-alternation-enabled="false" :allow-column-reordering="true"
+          @row-removed="onRowRemoved" :allow-column-resizing="true" @exporting="onExporting" :column-width="100"
+          :show-indicator="true" @row-updated="onRowUpdated" @row-inserted="onRowInserted" @init-new-row="initNewRow"
+          @cell-prepared="onCellPrepared" :repaint-changes-only="true">
 
-          <DxEditing :allow-updating="true" :allow-adding="true" :allow-deleting="true" mode="popup">
-            <DxPopup :show-title="true" :shading="true" :width="700" :height="480" title="İş Emri"
-              :onHiding="resetForm" />
+          <DxEditing :allow-updating="true" :allow-adding="true" :allow-deleting="true" :use-icons="true" mode="popup">
+            <DxPopup :show-title="true" :shading="true" :width="800" :height="480" title="İş Emri" />
             <DxForm>
               <DxItem :col-count="2" :col-span="2" item-type="group">
-                <DxItem data-field="ISTASYONID" editor-type="dxSelectBox" :editor-options="{
-                  dataSource: istasyon,
-                  displayExpr: 'TANIM',
-                  valueExpr: 'ID',
-                  searchEnabled: true,
-                  value: selectedIstasyon,
-                  onValueChanged: onIstasyonChange
-                }" />
-
-                <DxItem data-field="OZELLIKKOD1" editor-type="dxSelectBox" :editor-options="{
-                  dataSource: filteredOzellik1,
-                  displayExpr: 'OZELLIKKOD1',
-                  valueExpr: 'OZELLIKKOD1',
-                  searchEnabled: true,
-                  value: selectedOzellik1,
-                  onValueChanged: onOzellik1Change
-                }" />
-
-                <DxItem data-field="MMLGRPKOD" editor-type="dxSelectBox" :editor-options="{
-                  dataSource: filteredMamulGrubu,
-                  displayExpr: 'MMLGRPKOD',
-                  valueExpr: 'MMLGRPKOD',
-                  searchEnabled: true,
-                  value: selectedGrup,
-                  onValueChanged: onGrupChange
-                }" />
-
-                <DxItem data-field="OZELLIKKOD2" editor-type="dxSelectBox" :editor-options="{
-                  dataSource: filteredOzellik2,
-                  displayExpr: 'OZELLIKKOD2',
-                  valueExpr: 'OZELLIKKOD2',
-                  searchEnabled: true,
-                  value: selectedOzellik2,
-                  onValueChanged: onOzellik2Change
-                }" />
-                <DxItem data-field="OZELLIKKOD3" editor-type="dxSelectBox" :editor-options="{
-                  dataSource: filteredOzellik3,
-                  displayExpr: 'OZELLIKKOD3',
-                  valueExpr: 'OZELLIKKOD3',
-                  searchEnabled: true,
-                  value: selectedOzellik3,
-                  onValueChanged: onOzellik3Change
-                }" />
-                <DxItem data-field="KOD" editor-type="dxSelectBox" :editor-options="{
-                  dataSource: filteredStokKodu,
-                  displayExpr: 'KOD',
-                  valueExpr: 'KOD',
-                  value: selectedStokKodu,
-                  searchEnabled: true,
-                  onValueChanged: onKodChange
-                }" />
-                <DxItem data-field="TANIM" editor-type="dxSelectBox" :col-span="2" :editor-options="{
-                  dataSource: filteredStokAdi,
-                  displayExpr: 'TANIM',
-                  valueExpr: 'TANIM',
-                  searchEnabled: true,
-                  value: selectedStokAdi,
-                  onValueChanged: onTanimChange
-                }" />
-                <DxItem data-field="NOTLAR" editor-type="dxTextBox" :col-span="2" :editor-options="{
-                  autoResizeEnabled: true,
-                  maxLength: 255
-                }" />
+                <DxItem data-field="URUNID" :visible="false" />
+                <DxItem data-field="ISTASYONID" />
+                <DxItem data-field="OZELLIKKOD1" />
+                <DxItem data-field="MMLGRPKOD" />
+                <DxItem data-field="OZELLIKKOD2" />
+                <DxItem data-field="OZELLIKKOD3" />
+                <DxItem data-field="KOD" />
+                <DxItem data-field="TANIM" :col-span="2" />
+                <DxItem data-field="NOTLAR" :col-span="2" />
                 <DxItem data-field="PLANLANANMIKTAR" editor-type="dxNumberBox" :editor-options="{
                   showSpinButtons: true,
                   format: '#,##0',
@@ -86,21 +31,42 @@
                 }" />
                 <DxItem data-field="DURUM" editor-type="dxSelectBox" :editor-options="{
                   dataSource: ['Beklemede', 'Üretimde', 'Üretildi', 'İptal'],
-                  value: 'Beklemede'
                 }" />
-                <DxItem data-field="AKTIF" editor-type="dxCheckBox" :editor-options="{
-                  value: true,
-                }" />
+                <DxItem data-field="AKTIF" editor-type="dxCheckBox" />
               </DxItem>
             </DxForm>
           </DxEditing>
 
+          <!-- Özelleştirilmiş butonlar -->
+          <DxColumn type="buttons" :fixed="true">
+            <DxButton name="edit" icon="edit" />
+            <DxButton name="delete" icon="trash" />
+            <DxButton hint="Clone" icon="optionsgear" @click="onUretimClick" />
+          </DxColumn>
+
+          <DxColumn data-field="DURUM" caption="DURUM" data-type="string" cell-template="durumTemplate" :width="60"
+            alignment="center" />
+          <DxColumn data-field="AKTIF" caption="AKTİF" data-type="boolean" :visible="true" :width="60"
+            cell-template="aktifTemplate" />
           <DxColumn data-field="ID" data-type="number" caption="İE NO" :visible="true" sort-order="desc" :width="80" />
-          <DxColumn data-field="ISTASYONID" caption="İSTASYON" :visible="false" data-type="number" />
+          <DxColumn :set-cell-value="setIstValue" data-field="ISTASYONID" caption="İSTASYON" :width="120"
+            data-type="string">
+            <DxLookup :data-source="gridIstasyon" display-expr="TANIM" value-expr="ID" />
+          </DxColumn>
           <DxColumn data-field="URUNID" caption="URUN ID" :visible="false" data-type="number" />
-          <DxColumn data-field="KOD" caption="STOK KODU" data-type="string" :visible="true" :width="120" />
-          <DxColumn data-field="TANIM" caption="STOK ADI" data-type="string" :width="300" />
-          <DxColumn data-field="MMLGRPKOD" caption="GRUP KODU" data-type="string" :visible="true" :width="250" />
+          <DxColumn :set-cell-value="setKodValue" data-field="KOD" caption="STOK KODU" data-type="string"
+            :visible="true" :width="120">
+            <DxLookup :data-source="getFilteredKod" display-expr="KOD" value-expr="KOD" />
+
+          </DxColumn>
+          <DxColumn :set-cell-value="setTanimValue" data-field="TANIM" caption="STOK ADI" data-type="string"
+            :width="300">
+            <DxLookup :data-source="getFilteredTanim" display-expr="TANIM" value-expr="TANIM" />
+          </DxColumn>
+          <DxColumn :set-cell-value="setGrupValue" data-field="MMLGRPKOD" :width="250" caption="GRUP KODU"
+            data-type="string">
+            <DxLookup :data-source="getFilteredGrup" display-expr="MMLGRPKOD" value-expr="MMLGRPKOD" />
+          </DxColumn>
           <DxColumn data-field="PLANLANANMIKTAR" caption="PL. MKTR" data-type="number" :visible="true" :width="110" />
           <DxColumn data-field="URETIMMIKTAR" caption="ÜR. MKTR" data-type="number" :width="110" />
           <DxColumn data-field="URETIMSIRA" caption="ÜRETİM SIRA" data-type="number" :visible="false" />
@@ -115,30 +81,34 @@
               return formattedDate.replace(/\//g, '.');
             }
           }" />
-          <DxColumn data-field="DURUM" caption="DURUM" data-type="string" />
           <DxColumn data-field="NOTLAR" caption="NOTLAR" data-type="string" />
           <DxColumn data-field="PROSESNOT" caption="PROSES NOTU" width="100" data-type="string" :visible="true" />
-          <DxColumn data-field="OZELLIKKOD1" caption="ÖZELLİK 1" data-type="string" />
-          <DxColumn data-field="OZELLIKKOD2" caption="ÖZELLİK 2" data-type="string" />
-          <DxColumn data-field="OZELLIKKOD3" caption="ÖZELLİK 3" data-type="string" />
+          <DxColumn :set-cell-value="setOz1Value" data-field="OZELLIKKOD1" caption="ÖZELLİK 1" data-type="string">
+            <DxLookup :data-source="getFilteredOz1" display-expr="OZELLIKKOD1" value-expr="OZELLIKKOD1" />
+          </DxColumn>
+          <DxColumn :set-cell-value="setOz2Value" data-field="OZELLIKKOD2" caption="ÖZELLİK 2" data-type="string">
+            <DxLookup :data-source="getFilteredOz2" display-expr="OZELLIKKOD2" value-expr="OZELLIKKOD2" />
+          </DxColumn>
+          <DxColumn :set-cell-value="setOz3Value" data-field="OZELLIKKOD3" caption="ÖZELLİK 3" data-type="string">
+            <DxLookup :data-source="getFilteredOz3" display-expr="OZELLIKKOD3" value-expr="OZELLIKKOD3" />
+          </DxColumn>
           <DxColumn data-field="ISTKOD" caption="İSTASYON KODU" data-type="string" />
           <DxColumn data-field="ISTTANIM" caption="İSTASYON ADI" data-type="string" :visible="false" />
-          <DxColumn data-field="AKTIF" caption="AKTİF" data-type="boolean" :visible="true"
-            cell-template="cellTemplate" />
 
-          <!-- <DxStateStoring :enabled="true" type="localStorage" storage-key="storage" /> -->
+
+          <DxStateStoring :enabled="true" type="localStorage" storage-key="storage" />
           <DxGroupPanel :visible="true" emptyPanelText="Gruplanacak sütunlar buraya..." />
           <DxGrouping :auto-expand-all="true" />
           <DxFilterPanel :visible="true" />
           <DxLoadPanel :enabled="true" />
-          <DxScrolling mode="virtual" />
+          <DxScrolling mode="virtual" column-rendering-mode="virtual" />
           <DxFilterRow :visible="true" />
           <DxFilterBuilderPopup :position="filterBuilderPopupPosition" />
           <DxHeaderFilter :visible="true" />
           <DxSearchPanel :visible="true" :width="240" placeholder="Ara..." />
           <DxExport :enabled="true" :allow-export-selected-data="true" />
-          <DxPaging :enabled="false"/>
           <DxSelection mode="single" />
+          <DxColumnFixing :enabled="true" />
           <DxColumnChooser height="540px" :enabled="true" :mode="mode" title="Sütun Seçici">
             <DxPosition my="right top" at="right bottom" of=".dx-datagrid-column-chooser-button" />
 
@@ -147,18 +117,14 @@
           </DxColumnChooser>
 
           <DxSummary>
-            <DxTotalItem column="URUNID" summary-type="count" display-format="{0} adet" />
-            <DxGroupItem :show-in-group-footer="false" :align-by-column="true" column="URUNID" summary-type="count"
+            <DxTotalItem column="TANIM" summary-type="count" display-format="{0} adet" />
+            <DxGroupItem :show-in-group-footer="false" :align-by-column="true" column="TANIM" summary-type="count"
               display-format="{0} adet" />
           </DxSummary>
 
-          <!-- Özelleştirilmiş butonlar -->
-          <DxColumn type="buttons">
-            <DxButton name="edit" icon="edit" />
-            <DxButton name="delete" icon="trash" />
-          </DxColumn>
 
-          <template #cellTemplate="{ data }">
+
+          <template #aktifTemplate="{ data }">
             <template v-if="data.value === 0">
               <VIcon size="24" icon="tabler-x" />
             </template>
@@ -167,37 +133,68 @@
             </template>
           </template>
 
+          <template #durumTemplate="{ data }">
+            <template v-if="data.value === 'Üretimde'">
+              <VIcon size="24" icon="tabler-bolt" />
+            </template>
+            <template v-else>
+              <VIcon size="24" icon="tabler-clock" />
+            </template>
+          </template>
+
+
         </DxDataGrid>
       </VCard>
     </VRow>
+
+    <UretimGir v-model:isDialogVisible="isUretimGirisDialogVisible" :cardDetails="modalParametre" />
+
     <br>
     <br>
 
   </div>
+
+
+
+
 </template>
 
 <script setup lang="ts">
 
+import { totalVisible } from "@/views/demos/components/pagination/demoCodePagination";
+import axios from "axios";
+import { DxTextBoxTypes } from "devextreme-vue/text-box";
+import { PositionConfig } from "devextreme/animation/position";
+import { onMounted, ref, computed } from 'vue';
+import { exportDataGrid } from "devextreme/excel_exporter";
+import { Workbook } from "exceljs";
+import { saveAs } from "file-saver-es";
+import DxContextMenu, { DxContextMenuTypes } from 'devextreme-vue/context-menu';
+import notify from 'devextreme/ui/notify';
+import { usePageTitleStore } from '@/stores/pageTitle';
+
 import {
-  DxButton,
   DxColumn,
+  DxDataGrid,
+  DxDataGridTypes,
+  DxLookup,
+  DxEditing,
+  DxPopup,
+  DxForm,
+  DxItem,
+  DxButton,
   DxColumnChooser,
   DxColumnChooserSearch,
   DxColumnChooserSelection,
-  DxDataGrid,
-  DxDataGridTypes,
-  DxEditing,
   DxExport,
   DxFilterBuilderPopup,
   DxFilterPanel,
   DxFilterRow,
-  DxForm,
   DxGrouping,
   DxGroupItem,
   DxGroupPanel,
   DxHeaderFilter,
   DxLoadPanel,
-  DxPopup,
   DxPosition,
   DxScrolling,
   DxSearchPanel,
@@ -205,47 +202,27 @@ import {
   DxStateStoring,
   DxSummary,
   DxTotalItem,
+  DxColumnFixing,
 } from "devextreme-vue/data-grid";
-import { usePageTitleStore } from '@/stores/pageTitle';
-import axios from "axios";
-import DxContextMenu, { DxContextMenuTypes } from 'devextreme-vue/context-menu';
-import { DxItem } from "devextreme-vue/form";
-import { DxTextBoxTypes } from "devextreme-vue/text-box";
-import { PositionConfig } from "devextreme/animation/position";
-import { exportDataGrid } from "devextreme/excel_exporter";
-import { Workbook } from "exceljs";
-import { saveAs } from "file-saver-es";
-import { wrap } from 'module';
-import { onMounted, ref } from 'vue';
 
-// Pinia store'u kullan
+const isUretimGirisDialogVisible = ref(false);
 const pageTitleStore = usePageTitleStore();
+const userData = useCookie<any>('userData');
+const gridData = ref<GridData[]>([]);
+const gridKod = ref<KodData[]>([]);
+const gridGrup = ref<GrupData[]>([]);
+const gridOz1 = ref<Oz1Data[]>([]);
+const gridOz2 = ref<Oz2Data[]>([]);
+const gridOz3 = ref<Oz3Data[]>([]);
+const gridIstasyon = ref<IstasyonData[]>([]);
 const dataGridRef = ref<DxDataGrid | null>(null);
-const mode = ref("select");
-const gridData = ref([]);
+var mesaj = 'Aktif İş Emri Sayısı: '
 
-const selectedIstasyon = ref(null);
-const selectedGrup = ref('');
-const selectedOzellik1 = ref('');
-const selectedOzellik2 = ref('');
-const selectedOzellik3 = ref('');
-const selectedStokKodu = ref('');
-const selectedStokAdi = ref('');
-const istasyon = ref([]);
-// const ozellik1 = ref([]);
-// const ozellik2 = ref([]);
-// const ozellik3 = ref([]);
-// const mamulGrubu = ref([]);
-// const stokKodu = ref([]);
-// const stokAdi = ref([]);
-const filteredMamulGrubu = ref([]);
-const filteredOzellik1 = ref([]);
-const filteredOzellik2 = ref([]);
-const filteredOzellik3 = ref([]);
-const filteredStokKodu = ref([]);
-const filteredStokAdi = ref([]);
-const userData = useCookie<any>('userData')
-var mesaj = 'İş Emirleri: '
+
+onMounted(() => {
+  getVeri();
+  getData();
+});
 
 const getData = () => {
   axios
@@ -253,179 +230,104 @@ const getData = () => {
     .then((response) => {
       gridData.value = response.data.data;
       pageTitleStore.setTitle(mesaj)
-      pageTitleStore.setToplam(formatNumber(response.data.toplam).toString() + " Adet")
+      pageTitleStore.setToplam(formatNumber(response.data.toplam).toString())
     })
     .catch((error) => {
       console.error("Veri çekilirken hata oluştu: ", error);
     });
 };
-
 const getVeri = () => {
   axios
     .get("/api/veri")
     .then((response) => {
-      istasyon.value = response.data.istasyon;
+      gridIstasyon.value = response.data.istasyon;
+      gridGrup.value = response.data.mamulGrup;
+      gridOz1.value = response.data.mamulOz1;
+      gridOz2.value = response.data.mamulOz2;
+      gridOz3.value = response.data.mamulOz3;
+      gridKod.value = response.data.kod;
     })
     .catch((error) => {
       console.error("Mamul verileri çekilirken hata oluştu: ", error);
     });
 };
 
-async function onIstasyonChange(e) {
-  selectedIstasyon.value = e.value;
-  filteredOzellik1.value = [];
-  filteredOzellik2.value = [];
-  filteredOzellik3.value = [];
-  filteredMamulGrubu.value = [];
-  try {
-    const response = await axios.get('/api/ozellik1', {
-      params: { istasyonId: selectedIstasyon.value }
-    });
-    filteredOzellik1.value = response.data.ozellik1;
-    filteredStokKodu.value = response.data.mamuller;
-    filteredStokAdi.value = response.data.mamuller;
-  } catch (error) {
-    console.error('Veri çekme hatası:', error);
-  }
+const rowId = ref(null);
+
+function onUretimClick(e) {
+  const rowData = e.row.data;
+  rowId.value = rowData.ID;
+  isUretimGirisDialogVisible.value = !isUretimGirisDialogVisible.value;
 }
+const modalParametre = computed(() => ({
+  id: rowId.value,
+  userName: userData._rawValue.name,
+}));
 
-async function onOzellik1Change(e) {
-  selectedOzellik1.value = e.value;
-  try {
-    const response = await axios.get('/api/mamul-grubu', {
-      params: {
-        istasyonId: selectedIstasyon.value,
-        ozl1: selectedOzellik1.value
-      }
-    });
-    filteredMamulGrubu.value = response.data.mamulGrubu;
-    filteredStokKodu.value = response.data.mamuller;
-    filteredStokAdi.value = response.data.mamuller;
-  } catch (error) {
-    console.error('Veri çekme hatası:', error);
+
+const onEditorPreparing = (e: any) => {
+  if (e.parentType === 'dataRow' && e.dataField === 'OZELLIKKOD1') {
+    const isStateNotSet = e.row!.data.ISTASYONID === undefined;
+    e.editorOptions.disabled = isStateNotSet;
   }
-}
-
-async function onGrupChange(e) {
-  selectedGrup.value = e.value;
-  try {
-    const response = await axios.get('/api/ozellik2', {
-      params: {
-        mamulGrubu: selectedGrup.value,
-        istasyonId: selectedIstasyon.value,
-        ozellik1: selectedOzellik1.value
-      }
-    });
-    filteredOzellik2.value = response.data.ozellik2;
-    filteredStokKodu.value = response.data.mamuller;
-    filteredStokAdi.value = response.data.mamuller;
-  } catch (error) {
-    console.error('Veri çekme hatası:', error);
+  if (e.parentType === 'dataRow' && e.dataField === 'MMLGRPKOD') {
+    const isStateNotSet = e.row!.data.OZELLIKKOD1 === undefined;
+    e.editorOptions.disabled = isStateNotSet;
   }
-}
-
-async function onOzellik2Change(e) {
-  selectedOzellik2.value = e.value;
-  try {
-    const response = await axios.get('/api/ozellik3', {
-      params: {
-        mamulGrubu: selectedGrup.value,
-        istasyonId: selectedIstasyon.value,
-        ozellik1: selectedOzellik1.value,
-        ozellik2: selectedOzellik2.value
-      }
-    });
-    filteredOzellik3.value = response.data.ozellik3;
-    filteredStokKodu.value = response.data.mamuller;
-    filteredStokAdi.value = response.data.mamuller;
-  } catch (error) {
-    console.error('Veri çekme hatası:', error);
+  if (e.parentType === 'dataRow' && e.dataField === 'OZELLIKKOD2') {
+    const isStateNotSet = e.row!.data.OZELLIKKOD2 === undefined;
+    e.editorOptions.disabled = isStateNotSet;
   }
-}
-
-async function onOzellik3Change(e) {
-  selectedOzellik3.value = e.value;
-  try {
-    const response = await axios.get('/api/fitered-mamul', {
-      params: {
-        mamulGrubu: selectedGrup.value,
-        istasyonId: selectedIstasyon.value,
-        ozellik1: selectedOzellik1.value,
-        ozellik2: selectedOzellik2.value,
-        ozellik3: selectedOzellik3.value
-      }
-    });
-    filteredStokKodu.value = response.data.mamuller;
-    filteredStokAdi.value = response.data.mamuller;
-  } catch (error) {
-    console.error('Veri çekme hatası:', error);
+  if (e.parentType === 'dataRow' && e.dataField === 'OZELLIKKOD3') {
+    const isStateNotSet = e.row!.data.OZELLIKKOD3 === undefined;
+    e.editorOptions.disabled = isStateNotSet;
   }
-}
-
-async function onKodChange(e) {
-  selectedStokKodu.value = e.value;
-  try {
-    const response = await axios.get('/api/mamulden', {
-      params: {
-        kod: selectedStokKodu.value,
-        tanim: ' ',
-      }
-    });
-    filteredOzellik1.value = response.data.mamuller;
-    filteredOzellik2.value = response.data.mamuller;
-    filteredOzellik3.value = response.data.mamuller;
-    filteredMamulGrubu.value = response.data.mamuller;
-
-    selectedOzellik1.value = response.data.mamuller[0].OZELLIKKOD1;
-    selectedOzellik2.value = response.data.mamuller[0].OZELLIKKOD2;
-    selectedOzellik3.value = response.data.mamuller[0].OZELLIKKOD3;
-    selectedGrup.value = response.data.mamuller[0].MMLGRPKOD;
-    selectedStokKodu.value = response.data.mamuller[0].KOD;
-    selectedStokAdi.value = response.data.mamuller[0].TANIM;
-  } catch (error) {
-    console.error('Veri çekme hatası:', error);
+  if (e.parentType === 'dataRow' && e.dataField === 'KOD') {
+    const isStateNotSet = e.row!.data.KOD === undefined;
+    e.editorOptions.disabled = isStateNotSet;
   }
-}
-
-async function onTanimChange(e) {
-  selectedStokAdi.value = e.value;
-  try {
-    const response = await axios.get('/api/mamulden', {
-      params: {
-        kod: ' ',
-        tanim: selectedStokAdi.value,
-      }
-    });
-    filteredOzellik1.value = response.data.mamuller;
-    filteredOzellik2.value = response.data.mamuller;
-    filteredOzellik3.value = response.data.mamuller;
-    filteredMamulGrubu.value = response.data.mamuller;
-
-    selectedOzellik1.value = response.data.mamuller[0].OZELLIKKOD1;
-    selectedOzellik2.value = response.data.mamuller[0].OZELLIKKOD2;
-    selectedOzellik3.value = response.data.mamuller[0].OZELLIKKOD3;
-    selectedGrup.value = response.data.mamuller[0].MMLGRPKOD;
-    selectedStokKodu.value = response.data.mamuller[0].KOD;
-    selectedStokAdi.value = response.data.mamuller[0].TANIM;
-  } catch (error) {
-    console.error('Veri çekme hatası:', error);
+  if (e.parentType === 'dataRow' && e.dataField === 'TANIM') {
+    const isStateNotSet = e.row!.data.TANIM === undefined;
+    e.editorOptions.disabled = isStateNotSet;
   }
-}
-
-const onRowInserting = (e) => {
-  e.data.ISTASYONID = selectedIstasyon.value;
-  e.data.KOD = selectedStokKodu.value;
-  e.data.PLANLANANMIKTAR = e.data.PLANLANANMIKTAR || 0;
-  e.data.DURUM = e.data.DURUM || 'Beklemede';
-  e.data.AKTIF = e.data.AKTIF = true ? true : false;
 };
-
+const onRowRemoved = (e: any) => {
+  axios.get('/sanctum/csrf-cookie').then(() => {
+    axios.put(`/api/datasil/${e.key}`, e.data, {
+      headers: {
+        'X-User-Name': userData._rawValue.name,
+      }
+    })
+      .then(response => {
+        // console.log("Veri başarıyla silindi", response);
+        getData();
+      })
+      .catch(error => {
+        console.error("Veri silinirken hata oluştu: ", error);
+      });
+  });
+};
+const onRowUpdated = (e: any) => {
+  axios
+    .put(`/api/data/${e.key}`, e.data, {
+      headers: {
+        'X-User-Name': userData._rawValue.name,
+      }
+    })
+    .then((response) => {
+      // console.log("Veri başarıyla güncellendi", response);
+      getData();
+    })
+    .catch((error) => {
+      console.error("Veri güncellenirken hata oluştu: ", error);
+    });
+};
 const onRowInserted = (e: any) => {
   console.log(e.data);
   axios
     .post("/api/data", e.data, {
       headers: {
-        'X-User-Name': userData._rawValue.id,
+        'X-User-Name': userData._rawValue.name,
       }
     })
     .then((response) => {
@@ -433,103 +335,185 @@ const onRowInserted = (e: any) => {
       getData();
     })
     .catch((error) => {
-      if (error.response && error.response.data) {
-        console.error("Doğrulama hatası: ", error.response.data.errors);
-      } else {
-        console.error("Veri eklenirken hata oluştu: ", error);
-      }
+      console.error("Veri eklenirken hata oluştu: ", error);
     });
 };
-
-const onRowUpdated = (e: any) => {
-  const updatedData = e.data;
-console.log(updatedData);
-  if (Object.keys(updatedData).length === 0) {
-    console.warn("Güncellenen veri boş geldi.");
-  } else {
-    console.log("Güncellenen veri:", updatedData);
+const initNewRow = (e: any) => {
+  e.data.PLANLANANMIKTAR = 0;
+  e.data.NOTLAR = '';
+  e.data.DURUM = 'Beklemede';
+  e.data.AKTIF = true;
+};
+const onCellPrepared = (e: any) => {
+  if (e.rowType === "data" && e.column.dataField === "PLANLANANMIKTAR") {
+    if (e.data.URETIMMIKTAR == e.data.PLANLANANMIKTAR) {
+      e.cellElement.style.color = "white";
+      e.cellElement.style.fontWeight = "bold";
+      e.cellElement.style.backgroundColor = "#5caa53";
+    }
   }
-};
 
-// const onRowUpdated = (e: any) => {
-//   alert();
-//   console.log('updated' + e.data.value);
-//   // axios
-//   //   .put(`/api/data/${e.key}`, e.data, {
-//   //     headers: {
-//   //       'X-User-Name': userData._rawValue.name,
-//   //     }
-//   //   })
-//   //   .then((response) => {
-//   //     // console.log("Veri başarıyla güncellendi", response);
-//   //     getData();
-//   //   })
-//   //   .catch((error) => {
-//   //     console.error("Veri güncellenirken hata oluştu: ", error);
-//   //   });
-// };
-
-const onRowUpdating = (e: any) => {
-  alert();
-  console.log('updating' + e.data);
-  // axios
-  //   .put(`/api/data/${e.key}`, e.data, {
-  //     headers: {
-  //       'X-User-Name': userData._rawValue.name,
-  //     }
-  //   })
-  //   .then((response) => {
-  //     // console.log("Veri başarıyla güncellendi", response);
-  //     getData();
-  //   })
-  //   .catch((error) => {
-  //     console.error("Veri güncellenirken hata oluştu: ", error);
-  //   });
-};
-
-const onEditingStart = (e: any) => {
-  console.log('starting' + e.data.KOD);
-  // onKodChange(e.data.KOD);
-  fetchFilteredOzellik1(e.data.KOD);
-  selectedIstasyon.value = e.data.ISTASYONID;
-  selectedOzellik1.value = e.data.OZELLIKKOD1;
-  selectedGrup.value = e.data.MMLGRPKOD;
-};
-
-const fetchFilteredOzellik1 = async (kod) => {
-  try {
-    const response = await axios.get('/api/mamulden', {
-      params: {
-        kod: kod,
-        tanim: ' ',
-      }
-    });
-    filteredOzellik1.value = response.data.mamuller;
-    filteredOzellik2.value = response.data.mamuller;
-    filteredOzellik3.value = response.data.mamuller;
-    filteredMamulGrubu.value = response.data.mamuller;
-
-    selectedOzellik1.value = response.data.mamuller[0].OZELLIKKOD1;
-    selectedOzellik2.value = response.data.mamuller[0].OZELLIKKOD2;
-    selectedOzellik3.value = response.data.mamuller[0].OZELLIKKOD3;
-    selectedGrup.value = response.data.mamuller[0].MMLGRPKOD;
-    selectedStokKodu.value = response.data.mamuller[0].KOD;
-    selectedStokAdi.value = response.data.mamuller[0].TANIM;
-
-
-    console.log('Filtered Ozellik1:', filteredOzellik1.value);
-  } catch (error) {
-    console.error('Veri çekme hatası:', error);
+  if (e.rowType === "data" && e.column.dataField === "URETIMMIKTAR") {
+    if (e.data.URETIMMIKTAR > e.data.PLANLANANMIKTAR) {
+      e.cellElement.style.color = "white";
+      e.cellElement.style.fontWeight = "bold";
+      e.cellElement.style.backgroundColor = "#c15353";
+    }
   }
-};
+}
 
 
+interface GridData {
+  ID?: number | null;
+  ISTASYONID?: number | null;
+  URUNID?: number | null;
+  KOD?: string | null;
+  TANIM?: string | null;
+  MMLGRPKOD?: string | null;
+  OZELLIKKOD1?: string | null;
+  OZELLIKKOD2?: string | null;
+  OZELLIKKOD3?: string | null;
+}
+interface KodData {
+  ID?: number | null;
+  KOD?: string | null;
+  TANIM?: string | null;
+  MMLGRPKOD?: string | null;
+  OZELLIKKOD1?: string | null;
+  OZELLIKKOD2?: string | null;
+  OZELLIKKOD3?: string | null;
+  ISTASYONID?: number | null;
+}
+interface IstasyonData {
+  ID?: number | null;
+  KOD?: string | null;
+  TANIM?: string | null;
+}
+interface Oz1Data {
+  OZELLIKKOD1?: string | null;
+  ISTASYONID?: number | null;
+}
+interface GrupData {
+  MMLGRPKOD?: string | null;
+  ISTASYONID?: number | null;
+  OZELLIKKOD1?: number | null;
+}
+interface Oz2Data {
+  MMLGRPKOD?: string | null;
+  OZELLIKKOD1?: string | null;
+  OZELLIKKOD2?: string | null;
+  ISTASYONID?: number | null;
+}
+interface Oz3Data {
+  MMLGRPKOD?: string | null;
+  OZELLIKKOD1?: string | null;
+  OZELLIKKOD2?: string | null;
+  OZELLIKKOD3?: string | null;
+  ISTASYONID?: number | null;
+}
 
+const getFilteredOz1 = (options: { data: Oz1Data }) => ({
+  store: gridOz1.value,
+  filter: options.data ? ['ISTASYONID', '=', options.data.ISTASYONID] : null,
+});
+const getFilteredGrup = (options: { data: GrupData }) => ({
+  store: gridGrup.value,
+  filter: options.data ? [['ISTASYONID', '=', options.data.ISTASYONID], 'and', ['OZELLIKKOD1', '=', options.data.OZELLIKKOD1]] : null,
+});
+const getFilteredOz2 = (options: { data: Oz2Data }) => ({
+  store: gridOz2.value,
+  filter: options.data ? [['ISTASYONID', '=', options.data.ISTASYONID], 'and', ['OZELLIKKOD1', '=', options.data.OZELLIKKOD1], 'and', ['MMLGRPKOD', '=', options.data.MMLGRPKOD]] : null,
+});
+const getFilteredOz3 = (options: { data: Oz3Data }) => ({
+  store: gridOz3.value,
+  filter: options.data ? [['ISTASYONID', '=', options.data.ISTASYONID], 'and', ['OZELLIKKOD1', '=', options.data.OZELLIKKOD1], 'and', ['MMLGRPKOD', '=', options.data.MMLGRPKOD], 'and', ['OZELLIKKOD2', '=', options.data.OZELLIKKOD2]] : null,
+});
+const getFilteredKod = (options: { data: KodData }) => ({
+  store: gridKod.value,
+  filter: options.data ? [['ISTASYONID', '=', options.data.ISTASYONID]
+    , 'and', ['OZELLIKKOD1', '=', options.data.OZELLIKKOD1]
+    , 'and', ['MMLGRPKOD', '=', options.data.MMLGRPKOD], 'and', ['OZELLIKKOD2', '=', options.data.OZELLIKKOD2], 'and', ['OZELLIKKOD3', '=', options.data.OZELLIKKOD3]
+  ] : null,
+});
+const getFilteredTanim = (options: { data: KodData }) => ({
+  store: gridKod.value,
+  filter: options.data ? [['ISTASYONID', '=', options.data.ISTASYONID]
+    , 'and', ['OZELLIKKOD1', '=', options.data.OZELLIKKOD1]
+    , 'and', ['MMLGRPKOD', '=', options.data.MMLGRPKOD], 'and', ['OZELLIKKOD2', '=', options.data.OZELLIKKOD2], 'and', ['OZELLIKKOD3', '=', options.data.OZELLIKKOD3]
+  ] : null,
+});
 
-
-onMounted(() => {
-  getData();
-  getVeri();
+function setKodValue(
+  this: DxDataGridTypes.Column, newData: GridData, value: string, currentRowData: GridData,
+) {
+  const kodDataArray = [];
+  kodDataArray.push(...gridKod.value);
+  const filteredKodData = kodDataArray.find(
+    (kodItem) => kodItem.KOD === value && kodItem.ISTASYONID === currentRowData.ISTASYONID
+  );
+  newData.TANIM = filteredKodData ? filteredKodData.TANIM : null;
+  newData.URUNID = filteredKodData ? filteredKodData.ID : null;
+  this.defaultSetCellValue!(newData, value, currentRowData);
+}
+function setTanimValue(
+  this: DxDataGridTypes.Column, newData: GridData, value: string, currentRowData: GridData,
+) {
+  const kodDataArray = [];
+  kodDataArray.push(...gridKod.value);
+  const filteredKodData = kodDataArray.find(
+    (kodItem) => kodItem.TANIM === value && kodItem.ISTASYONID === currentRowData.ISTASYONID
+  );
+  newData.KOD = filteredKodData ? filteredKodData.KOD : null;
+  newData.URUNID = filteredKodData ? filteredKodData.ID : null;
+  this.defaultSetCellValue!(newData, value, currentRowData);
+}
+function setIstValue(
+  this: DxDataGridTypes.Column, newData: GridData, value: string, currentRowData: GridData,
+) {
+  newData.OZELLIKKOD1 = null;
+  newData.MMLGRPKOD = null;
+  newData.OZELLIKKOD2 = null;
+  newData.OZELLIKKOD3 = null;
+  newData.KOD = null;
+  newData.TANIM = null;
+  this.defaultSetCellValue!(newData, value, currentRowData);
+}
+function setOz1Value(
+  this: DxDataGridTypes.Column, newData: GridData, value: string, currentRowData: GridData,
+) {
+  newData.MMLGRPKOD = null;
+  newData.OZELLIKKOD2 = null;
+  newData.OZELLIKKOD3 = null;
+  newData.KOD = null;
+  newData.TANIM = null;
+  this.defaultSetCellValue!(newData, value, currentRowData);
+}
+function setGrupValue(
+  this: DxDataGridTypes.Column, newData: GridData, value: string, currentRowData: GridData,
+) {
+  newData.OZELLIKKOD2 = null;
+  newData.OZELLIKKOD3 = null;
+  newData.KOD = null;
+  newData.TANIM = null;
+  this.defaultSetCellValue!(newData, value, currentRowData);
+}
+function setOz2Value(
+  this: DxDataGridTypes.Column, newData: GridData, value: string, currentRowData: GridData,
+) {
+  newData.OZELLIKKOD3 = null;
+  newData.KOD = null;
+  newData.TANIM = null;
+  this.defaultSetCellValue!(newData, value, currentRowData);
+}
+function setOz3Value(
+  this: DxDataGridTypes.Column, newData: GridData, value: string, currentRowData: GridData,
+) {
+  newData.KOD = null;
+  newData.TANIM = null;
+  this.defaultSetCellValue!(newData, value, currentRowData);
+}
+const selectedCardDetails = ref({
+  conn: 'ddd',
 });
 
 const formatNumber = (number) => {
@@ -548,18 +532,6 @@ const editorOptions: DxTextBoxTypes.Properties = { placeholder: "Sütun ara" };
 const onContentReady = (e: DxDataGridTypes.ContentReadyEvent) => {
   e.component.option("loadPanel.enabled", false);
 };
-
-// Form verilerini sıfırlayan fonksiyon
-function resetForm() {
-  selectedIstasyon.value = null;
-  filteredMamulGrubu.value = [];
-  filteredOzellik1.value = [];
-  filteredOzellik2.value = [];
-  filteredOzellik3.value = [];
-  filteredStokKodu.value = [];
-  filteredStokAdi.value = [];
-
-}
 
 const onExporting = (e: DxDataGridTypes.ExportingEvent) => {
   const workbook = new Workbook();
@@ -580,6 +552,48 @@ const onExporting = (e: DxDataGridTypes.ExportingEvent) => {
 
   e.cancel = true;
 };
+
+
+
+
+const menuItems = [
+  { text: 'Yenile (Tam Liste)' },
+  // {
+  //   text: 'Sayım',
+  //   items: [
+  //     { text: 'Sayılmayanlar' },
+  //     { text: 'Sayılanlar' },
+  //     { text: 'Sayım Yap' },
+  //     { text: 'Sayım Sıfırla' },
+  //     { text: 'Sayılmayanları Sil' }],
+  // },
+  { text: 'Grid Düzenini Sıfırla' },
+  { text: 'Günün Sözü' }
+];
+function itemClick({ itemData }: DxContextMenuTypes.ItemClickEvent) {
+  if (!itemData?.items) {
+    switch (itemData?.text) {
+      case 'Yenile (Tam Liste)':
+        getData()
+        notify(`Veriler Yenilendi`, 'success', 1500)
+        break;
+      case 'Grid Düzenini Sıfırla':
+        onStateResetClick()
+        notify(`Düzen Sıfırlandı`, 'success', 1500)
+        break;
+      case 'Günün Sözü':
+        notify(`İşini düzgün yap. Dalga geçme :)`, 'success', 1500)
+        break;
+      default:
+        break;
+    }
+  }
+}
+const onStateResetClick = () => {
+  dataGridRef.value!.instance!.state(null);
+};
+
+
 
 
 </script>

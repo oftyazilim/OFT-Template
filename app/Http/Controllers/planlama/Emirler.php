@@ -748,11 +748,15 @@ class Emirler extends Controller
 
   public function uretimKaydet(Request $request)
   {
+    Log::info('Merhaba');
     $kayitid = (int)$request->id;
-    $operator = User::where('name', Auth::user()->name)->select('id')->first();
-    $miktar = (int)$request->uretim_miktar;
-
-    if ($operator) {
+    $operator = User::where('name', $request->userName)->select('id')->first();
+    $miktar = (int)$request->miktar;
+    
+Log::info($operator);
+Log::info($miktar);
+    
+  if ($operator) {
       $operatorID = $operator->id;
     } else {
       $operatorID = null;
@@ -763,10 +767,15 @@ class Emirler extends Controller
       $emir->URETIMMIKTAR += $miktar;
       $emir->save();
 
+Log::info($emir);
+
+
       $mml = Mamul::find($emir->URUNID);
       $mml->MEVCUT += (int)$miktar;
       $mml->GIREN += (int)$miktar;
       $mml->save();
+
+Log::info($mml);
 
       $hrkt = StokHrkt::create(
         [
@@ -776,9 +785,9 @@ class Emirler extends Controller
           'ISEMRIID' => $kayitid,
           'MIKTAR' => $miktar,
           'OLUSTURANID' => $operatorID,
-          'URETIMTARIH' =>  $request->tarih,
+          'URETIMTARIH' =>  now(), //$request->tarih,
           'KAYITTARIH' =>  now(),
-          'NOTLAR' =>  $request->notlar,
+          'NOTLAR' =>  '', //$request->notlar,
         ]
       );
       return response()->json(['success' => true]);

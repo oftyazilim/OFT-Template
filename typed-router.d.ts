@@ -129,6 +129,7 @@ declare module 'vue-router/auto-routes' {
     'pages-typography': RouteRecordInfo<'pages-typography', '/pages/typography', Record<never, never>, Record<never, never>>,
     'pages-user-profile-tab': RouteRecordInfo<'pages-user-profile-tab', '/pages/user-profile/:tab', { tab: ParamValue<true> }, { tab: ParamValue<false> }>,
     'planlama-isemirleri': RouteRecordInfo<'planlama-isemirleri', '/planlama/isemirleri', Record<never, never>, Record<never, never>>,
+    'planlama-isemirleri copy': RouteRecordInfo<'planlama-isemirleri copy', '/planlama/isemirleri copy', Record<never, never>, Record<never, never>>,
     'planlama-mamulkartlari': RouteRecordInfo<'planlama-mamulkartlari', '/planlama/mamulkartlari', Record<never, never>, Record<never, never>>,
     'planlama-mamulkartlari copy': RouteRecordInfo<'planlama-mamulkartlari copy', '/planlama/mamulkartlari copy', Record<never, never>, Record<never, never>>,
     'planlama-uretimgirisleri': RouteRecordInfo<'planlama-uretimgirisleri', '/planlama/uretimgirisleri', Record<never, never>, Record<never, never>>,
