@@ -11,7 +11,7 @@
           @cell-prepared="onCellPrepared" :repaint-changes-only="true">
 
           <DxEditing :allow-updating="true" :allow-adding="true" :allow-deleting="true" :use-icons="true" mode="popup">
-            <DxPopup :show-title="true" :shading="true" :width="800" :height="480" title="İş Emri" />
+            <DxPopup :show-title="true" :shading="true" :width="700" :height="480" title="İş Emri" />
             <DxForm>
               <DxItem :col-count="2" :col-span="2" item-type="group">
                 <DxItem data-field="URUNID" :visible="false" />
@@ -31,23 +31,22 @@
                 }" />
                 <DxItem data-field="DURUM" editor-type="dxSelectBox" :editor-options="{
                   dataSource: ['Beklemede', 'Üretimde', 'Üretildi', 'İptal'],
+                  value: 'Beklemede'
                 }" />
                 <DxItem data-field="AKTIF" editor-type="dxCheckBox" />
               </DxItem>
             </DxForm>
           </DxEditing>
-
+          
           <!-- Özelleştirilmiş butonlar -->
-          <DxColumn type="buttons" :fixed="true">
+          <DxColumn type="buttons" :width="70" :fixed="true" fixedPosition="right">
             <DxButton name="edit" icon="edit" />
             <DxButton name="delete" icon="trash" />
-            <DxButton hint="Üretim" icon="optionsgear" @click="onUretimClick" />
           </DxColumn>
-
-          <DxColumn data-field="DURUM" caption="DURUM" data-type="string" cell-template="durumTemplate" :width="60"
-            alignment="center" />
+          
+          <DxColumn data-field="DURUM" caption="DURUM" data-type="string" cell-template="durumTemplate" :width="60" alignment="center"/>
           <DxColumn data-field="AKTIF" caption="AKTİF" data-type="boolean" :visible="true" :width="60"
-            cell-template="aktifTemplate" />
+          cell-template="aktifTemplate" />
           <DxColumn data-field="ID" data-type="number" caption="İE NO" :visible="true" sort-order="desc" :width="80" />
           <DxColumn :set-cell-value="setIstValue" data-field="ISTASYONID" caption="İSTASYON" :width="120"
             data-type="string">
@@ -146,17 +145,10 @@
         </DxDataGrid>
       </VCard>
     </VRow>
-
-    <UretimGir v-model:isDialogVisible="isUretimGirisDialogVisible" :cardDetails="modalParametre" />
-
     <br>
     <br>
 
   </div>
-
-
-
-
 </template>
 
 <script setup lang="ts">
@@ -165,7 +157,7 @@ import { totalVisible } from "@/views/demos/components/pagination/demoCodePagina
 import axios from "axios";
 import { DxTextBoxTypes } from "devextreme-vue/text-box";
 import { PositionConfig } from "devextreme/animation/position";
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref } from 'vue';
 import { exportDataGrid } from "devextreme/excel_exporter";
 import { Workbook } from "exceljs";
 import { saveAs } from "file-saver-es";
@@ -204,8 +196,8 @@ import {
   DxTotalItem,
   DxColumnFixing,
 } from "devextreme-vue/data-grid";
+import { E } from "node_modules/unplugin-vue-router/dist/options-ChnxZdan.mjs";
 
-const isUretimGirisDialogVisible = ref(false);
 const pageTitleStore = usePageTitleStore();
 const userData = useCookie<any>('userData');
 const gridData = ref<GridData[]>([]);
@@ -217,7 +209,6 @@ const gridOz3 = ref<Oz3Data[]>([]);
 const gridIstasyon = ref<IstasyonData[]>([]);
 const dataGridRef = ref<DxDataGrid | null>(null);
 var mesaj = 'Aktif İş Emri Sayısı: '
-
 
 onMounted(() => {
   getVeri();
@@ -251,25 +242,6 @@ const getVeri = () => {
       console.error("Mamul verileri çekilirken hata oluştu: ", error);
     });
 };
-
-const rowId = ref(null);
-
-function onUretimClick(e: any) {
-  const rowData = e.row.data;
-  rowId.value = rowData.ID;
-  isUretimGirisDialogVisible.value = !isUretimGirisDialogVisible.value;
-  getData();
-}
-const modalParametre = computed(() => ({
-  id: rowId.value,
-  userId: userData._rawValue.id,
-}));
-watch(isUretimGirisDialogVisible, (newValue, oldValue) => {
-  if (!newValue && oldValue) {
-    
-    getData();
-  }
-});
 
 const onEditorPreparing = (e: any) => {
   if (e.parentType === 'dataRow' && e.dataField === 'OZELLIKKOD1') {
@@ -329,6 +301,7 @@ const onRowUpdated = (e: any) => {
     });
 };
 const onRowInserted = (e: any) => {
+  console.log(e.data);
   axios
     .post("/api/data", e.data, {
       headers: {
@@ -357,16 +330,15 @@ const onCellPrepared = (e: any) => {
       e.cellElement.style.backgroundColor = "#5caa53";
     }
   }
-
+  
   if (e.rowType === "data" && e.column.dataField === "URETIMMIKTAR") {
-    if (e.data.URETIMMIKTAR > e.data.PLANLANANMIKTAR) {
+    if(e.data.URETIMMIKTAR > e.data.PLANLANANMIKTAR){
       e.cellElement.style.color = "white";
       e.cellElement.style.fontWeight = "bold";
       e.cellElement.style.backgroundColor = "#c15353";
     }
   }
 }
-
 
 interface GridData {
   ID?: number | null;
@@ -517,9 +489,22 @@ function setOz3Value(
   newData.TANIM = null;
   this.defaultSetCellValue!(newData, value, currentRowData);
 }
-const selectedCardDetails = ref({
-  conn: 'ddd',
-});
+
+
+
+
+
+    // // Tracks the `Amount` data field
+    // e.watch(function () {
+    //   return e.data.URETIMMIKTAR;
+    // }, function () {
+    //   e.cellElement.style.color = e.data.URETIMMIKTAR >= 100 ? "green" : "red";
+    // })
+
+
+
+
+
 
 const formatNumber = (number) => {
   return new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 0 }).format(number);

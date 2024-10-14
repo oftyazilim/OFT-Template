@@ -4,7 +4,7 @@ import axios from 'axios'
 interface Details {
   miktar: number
   id: number
-  userName: string
+  userId: number
 }
 
 interface Emit {
@@ -21,20 +21,21 @@ const props = withDefaults(defineProps<Props>(), {
   cardDetails: () => ({
     miktar: 0,
     id: 0,
-    userName: '',
+    userId: 0,
   }),
 })
 
 const emit = defineEmits<Emit>()
 
 // const cardDetails = ref<Details>(structuredClone(toRaw(props.cardDetails)))
-const cardDetails = ref({ miktar: 0, id: 0, userName: '' })
+const cardDetails = ref({ miktar: 0, id: 0, userId: 0 })
 
 watch(() => props, () => {
   cardDetails.value = structuredClone(toRaw(props.cardDetails))
 })
 
 const formSubmit = () => {
+  if (cardDetails.value.miktar === null || cardDetails.value.miktar === 0) return
   updateDatabase(cardDetails.value.miktar)
   emit('submit', cardDetails.value)
   emit('update:isDialogVisible', false)
@@ -42,19 +43,16 @@ const formSubmit = () => {
 
 const updateDatabase = async (miktar: number) => {
   const kayitID = props.cardDetails.id
-  const userName = props.cardDetails.userName
-  console.log('ID: ', props.cardDetails.id, miktar, userName)
-
+  const userId = props.cardDetails.userId
   try {
     axios
       .put(`/api/update-uretim`, {
-        headers: {
-          'userName': userName,
-          'kayitID': kayitID,
-          'miktar': userName,
-        }
+        userId: userId,
+        kayitID: kayitID,
+        miktar: miktar
       })
       .then((response) => {
+        cardDetails.value.miktar = 0
       })
       .catch((error) => {
         console.error("Veri güncellenirken hata oluştu: ", error);

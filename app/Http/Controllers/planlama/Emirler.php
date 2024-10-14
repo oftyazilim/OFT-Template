@@ -482,37 +482,37 @@ class Emirler extends Controller
       ]);
     }
   }
-  
+
   public function store(Request $request)
   {
     try {
       $userName = $request->header('X-User-Name');
-      
+
       if (!$userName) {
         return response()->json(['message' => 'Kullanıcı bilgisi eksik'], 400);
       }
-      
+
       $userID = User::where('name', $userName)->select('id')->first();
-      
+
       Log::info($request);
-      
-      
+
+
       $validatedData = $request->validate([
         'ISTASYONID' => 'required|integer',
         'PLANLANANMIKTAR' => 'required|numeric',
         'DURUM' => 'required|string',
         'URUNID' => 'required|integer',
       ]);
-      
-      
+
+
       if (!$userID) {
         return response()->json(['message' => 'Kullanıcı bilgisi eksik'], 400);
       }
-      
-      
+
+
       // $currentDate = Carbon::now()->format('Y-m-d');
       // $currentTime = Carbon::now()->format('H:i:s');
-      
+
 
       DB::table('OFTT_01_EMIRLERIS')
         ->insert(array_merge($validatedData, [
@@ -748,26 +748,27 @@ class Emirler extends Controller
 
   public function uretimKaydet(Request $request)
   {
-    Log::info('Merhaba');
-    $kayitid = (int)$request->id;
-    $operator = User::where('name', $request->userName)->select('id')->first();
-    $miktar = (int)$request->miktar;
-    
-Log::info($operator);
-Log::info($miktar);
-    
-  if ($operator) {
-      $operatorID = $operator->id;
-    } else {
-      $operatorID = null;
-    }
+    $kayitid = (int)$request->input('kayitID');
+    Log::info($kayitid);
+
+    $operatorId = $request->input('userId');
+    Log::info($operatorId);
+
+    $miktar = (int)$request->input('miktar');
+    Log::info($miktar);
+
+    // if ($operator) {
+    //   $operatorID = $operator->id;
+    // } else {
+    //   $operatorID = null;
+    // }
 
     try {
       $emir = Emir::find($kayitid);
       $emir->URETIMMIKTAR += $miktar;
       $emir->save();
 
-Log::info($emir);
+      Log::info($emir);
 
 
       $mml = Mamul::find($emir->URUNID);
@@ -775,7 +776,7 @@ Log::info($emir);
       $mml->GIREN += (int)$miktar;
       $mml->save();
 
-Log::info($mml);
+      Log::info($mml);
 
       $hrkt = StokHrkt::create(
         [
@@ -784,7 +785,7 @@ Log::info($mml);
           'ISTASYONID' => $emir->ISTASYONID,
           'ISEMRIID' => $kayitid,
           'MIKTAR' => $miktar,
-          'OLUSTURANID' => $operatorID,
+          'OLUSTURANID' => $operatorId,
           'URETIMTARIH' =>  now(), //$request->tarih,
           'KAYITTARIH' =>  now(),
           'NOTLAR' =>  '', //$request->notlar,

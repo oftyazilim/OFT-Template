@@ -132,6 +132,7 @@ declare module 'vue-router/auto-routes' {
     'planlama-isemirleri copy': RouteRecordInfo<'planlama-isemirleri copy', '/planlama/isemirleri copy', Record<never, never>, Record<never, never>>,
     'planlama-mamulkartlari': RouteRecordInfo<'planlama-mamulkartlari', '/planlama/mamulkartlari', Record<never, never>, Record<never, never>>,
     'planlama-mamulkartlari copy': RouteRecordInfo<'planlama-mamulkartlari copy', '/planlama/mamulkartlari copy', Record<never, never>, Record<never, never>>,
+    'planlama-mamulkartlari copy 2': RouteRecordInfo<'planlama-mamulkartlari copy 2', '/planlama/mamulkartlari copy 2', Record<never, never>, Record<never, never>>,
     'planlama-uretimgirisleri': RouteRecordInfo<'planlama-uretimgirisleri', '/planlama/uretimgirisleri', Record<never, never>, Record<never, never>>,
     'planlama-uretimgirisleri copy': RouteRecordInfo<'planlama-uretimgirisleri copy', '/planlama/uretimgirisleri copy', Record<never, never>, Record<never, never>>,
     'register': RouteRecordInfo<'register', '/register', Record<never, never>, Record<never, never>>,

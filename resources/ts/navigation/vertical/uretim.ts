@@ -10,11 +10,11 @@ export default [
       },
       { 
         title: 'Mamül Kartları', 
-        to: 'planlama-mamulkartlari', 
+        to: 'pages-misc-under-maintenance', 
       },
       { 
         title: 'Üretim Girişleri', 
-        to: 'planlama-uretimgirisleri', 
+        to: 'pages-misc-under-maintenance', 
       },
     ],
   },
