@@ -149,9 +149,6 @@
 
     <UretimGir v-model:isDialogVisible="isUretimGirisDialogVisible" :cardDetails="modalParametre" />
 
-    <br>
-    <br>
-
   </div>
 
 
@@ -610,7 +607,7 @@ const onStateResetClick = () => {
 html,
 body {
   margin: 0;
-  block: 95%;
+  block: 90%;
 }
 
 #gridContainer {

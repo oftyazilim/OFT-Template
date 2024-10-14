@@ -1,5 +1,5 @@
 <template>
-  <DxChart id="chart" :data-source="dataSource" palette="Harmony Light" title="Pizza Shop Complaints">
+  <!-- <DxChart id="chart" :data-source="dataSource" palette="Harmony Light" title="Pizza Shop Complaints">
     <DxCommonSeriesSettings argument-field="complaint" />
     <DxSeries name="Complaint frequency" value-field="count" axis="frequency" type="bar" color="#fac29a" />
     <DxSeries name="Cumulative percentage" value-field="cumulativePercentage" axis="percentage" type="spline"
@@ -21,7 +21,7 @@
     <DxTooltip :enabled="true" :shared="true" :customize-tooltip="customizeTooltip" />
 
     <DxLegend vertical-alignment="top" horizontal-alignment="center" />
-  </DxChart>
+  </DxChart> -->
 </template>
 
 <script lang="ts" setup>

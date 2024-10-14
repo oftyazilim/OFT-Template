@@ -21,7 +21,6 @@ class Emirler extends Controller
   {
     $data = DB::table('OFTV_01_EMIRLERIS')->orderBy('URETIMSIRA', 'asc')->get();
     $toplam = $data->count('ID');
-
     return response()->json([
       'data' => $data,
       'toplam' => $toplam
