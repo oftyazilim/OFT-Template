@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\planlama\Emirler;
+use App\Http\Controllers\planlama\Uretimler;
+use App\Http\Controllers\planlama\Mamuller;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +18,8 @@ use App\Http\Controllers\planlama\Emirler;
 |
 */
 
+
+//* İş Emirleri -----------------------------------------------------------
 Route::get('/data', [Emirler::class, 'getData']);
 Route::get('/veri', [Emirler::class, 'getVeri']);
 Route::get('/mamul-grubu', [Emirler::class, 'getFilteredMamulGrubu']);
@@ -29,7 +33,23 @@ Route::put('/datasil/{id}', [Emirler::class, 'kayitSil']);  // Silme işlemi
 Route::put('/data/{id}', [Emirler::class, 'update']);
 
 Route::post('/data', [Emirler::class, 'store']);  // Ekleme işlemi
-Route::put('/update-uretim', [Emirler::class, 'uretimKaydet']);  // Ekleme işlemi
+Route::put('/uretimekle', [Emirler::class, 'uretimKaydet']);  // Ekleme işlemi
+
+//* Üretim Girişleri ------------------------------------------------------
+Route::get('/dataUretim', [Uretimler::class, 'getData']);
+Route::put('/uretimduzelt', [Uretimler::class, 'uretimKaydet']);
+Route::put('/uretimsil/{id}', [Uretimler::class, 'kayitSil']);  // Silme işlemi
+
+//* Mamul Kartları --------------------------------------------------------
+Route::get('/dataMamuller', [Mamuller::class, 'getData']);
+Route::get('/veriMamuller', [Mamuller::class, 'getVeri']);
+Route::put('/mamulduzelt', [Mamuller::class, 'mamulKaydet']);
+Route::put('/mamulsil/{id}', [Mamuller::class, 'kayitSil']);  // Silme işlemi
+Route::post('/mamul', [Mamuller::class, 'store']);  // Ekleme işlemi
+
+
+
+
 
 Route::group(['prefix' => 'auth'], function () {
   Route::post('login', [AuthController::class, 'login']);

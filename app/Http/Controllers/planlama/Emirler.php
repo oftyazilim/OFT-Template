@@ -21,6 +21,7 @@ class Emirler extends Controller
   {
     $data = DB::table('OFTV_01_EMIRLERIS')->orderBy('URETIMSIRA', 'asc')->get();
     $toplam = $data->count('ID');
+
     return response()->json([
       'data' => $data,
       'toplam' => $toplam
@@ -493,7 +494,7 @@ class Emirler extends Controller
 
       $userID = User::where('name', $userName)->select('id')->first();
 
-      Log::info($request);
+      Log::info('Request: '.$request);
 
 
       $validatedData = $request->validate([
@@ -748,26 +749,13 @@ class Emirler extends Controller
   public function uretimKaydet(Request $request)
   {
     $kayitid = (int)$request->input('kayitID');
-    Log::info($kayitid);
-
     $operatorId = $request->input('userId');
-    Log::info($operatorId);
-
     $miktar = (int)$request->input('miktar');
-    Log::info($miktar);
-
-    // if ($operator) {
-    //   $operatorID = $operator->id;
-    // } else {
-    //   $operatorID = null;
-    // }
 
     try {
       $emir = Emir::find($kayitid);
       $emir->URETIMMIKTAR += $miktar;
       $emir->save();
-
-      Log::info($emir);
 
 
       $mml = Mamul::find($emir->URUNID);
@@ -775,7 +763,6 @@ class Emirler extends Controller
       $mml->GIREN += (int)$miktar;
       $mml->save();
 
-      Log::info($mml);
 
       $hrkt = StokHrkt::create(
         [

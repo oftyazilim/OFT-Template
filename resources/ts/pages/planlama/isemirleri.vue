@@ -38,7 +38,7 @@
           </DxEditing>
 
           <!-- Özelleştirilmiş butonlar -->
-          <DxColumn type="buttons" :fixed="true">
+          <DxColumn type="buttons" :fixed="true" :width="100">
             <DxButton name="edit" icon="edit" />
             <DxButton name="delete" icon="trash" />
             <DxButton hint="Üretim" icon="optionsgear" @click="onUretimClick" />
@@ -260,6 +260,7 @@ function onUretimClick(e: any) {
 const modalParametre = computed(() => ({
   id: rowId.value,
   userId: userData._rawValue.id,
+  tur: ' (ekleme)',
 }));
 watch(isUretimGirisDialogVisible, (newValue, oldValue) => {
   if (!newValue && oldValue) {

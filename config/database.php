@@ -103,7 +103,7 @@ return [
             // 'host' => env('DB_HOST', '192.168.54.107'),
             'host' => env('DB_HOST', '192.168.1.215'),
             'port' => env('DB_PORT', '1433'),
-            'database' => env('DB_DATABASE', 'OFT_MES'),
+            'database' => env('DB_DATABASE', 'OFT_MES_TEMP'),
             'username' => env('DB_USERNAME', 'sa'),
             // 'password' => env('DB_PASSWORD', 'reallyStrongPwd123'),
             'password' => env('DB_PASSWORD', '?Ot2021!Om*'),

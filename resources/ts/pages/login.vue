@@ -140,61 +140,51 @@ const onSubmit = () => {
       <VCard flat :max-width="500" class="mt-12 mt-sm-0 pa-4">
         <VCardText>
           <h4 class="text-h4 mb-1">
-            Welcome to <span class="text-capitalize"> {{ themeConfig.app.title }} </span>! 👋🏻
+            <span class="text-capitalize"> {{ themeConfig.app.title }} </span>'e Hoş Geldiniz! 👋🏻 
           </h4>
           <p class="mb-0">
-            Please sign-in to your account and start the adventure
+            Lütfen giriş yapınız
           </p>
-        </VCardText>
-        <VCardText>
-          <VAlert color="primary" variant="tonal">
-            <p class="text-sm mb-2">
-              Admin Email: <strong>admin@demo.com</strong> / Pass: <strong>admin</strong>
-            </p>
-            <p class="text-sm mb-0">
-              Client Email: <strong>client@demo.com</strong> / Pass: <strong>client</strong>
-            </p>
-          </VAlert>
         </VCardText>
         <VCardText>
           <VForm ref="refVForm" @submit.prevent="onSubmit">
             <VRow>
               <!-- email -->
               <VCol cols="12">
-                <AppTextField v-model="credentials.email" label="Email" placeholder="johndoe@email.com" type="email"
+                <AppTextField v-model="credentials.email" label="Eposta" placeholder="oft@oft.com" type="email"
                   autofocus :rules="[requiredValidator, emailValidator]" :error-messages="errors.email" />
               </VCol>
 
               <!-- password -->
               <VCol cols="12">
-                <AppTextField v-model="credentials.password" label="Password" placeholder="············"
+                <AppTextField v-model="credentials.password" label="Şifre" placeholder="············"
                   :rules="[requiredValidator]" :type="isPasswordVisible ? 'text' : 'password'"
                   :error-messages="errors.password"
                   :append-inner-icon="isPasswordVisible ? 'tabler-eye-off' : 'tabler-eye'"
                   @click:append-inner="isPasswordVisible = !isPasswordVisible" />
 
                 <div class="d-flex align-center flex-wrap justify-space-between my-6">
-                  <VCheckbox v-model="rememberMe" label="Remember me" />
+                  <VCheckbox v-model="rememberMe" label="Beni hatırla" />
                   <RouterLink class="text-primary ms-2 mb-1" :to="{ name: 'forgot-password' }">
-                    Forgot Password?
+                    Şifremi unuttum?
                   </RouterLink>
                 </div>
 
                 <VBtn block type="submit">
-                  Login
+                  Giriş
                 </VBtn>
               </VCol>
 
               <!-- create account -->
               <VCol cols="12" class="text-center">
-                <span>New on our platform?</span>
+                <span>Yeni misiniz?</span>
                 <RouterLink class="text-primary ms-1" :to="{ name: 'register' }">
-                  Create an account
+                  Yeni Hesap Oluştur
                 </RouterLink>
               </VCol>
               <VCol cols="12" class="d-flex align-center">
                 <VDivider />
-                <span class="mx-4">or</span>
+                <span class="mx-4"> </span>
                 <VDivider />
               </VCol>
 
