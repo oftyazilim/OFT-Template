@@ -54,7 +54,7 @@
           <DxColumn data-field="NOTLAR" caption="NOTLAR" data-type="string" />
 
 
-          <DxStateStoring :enabled="true" type="localStorage" storage-key="storage" />
+          <DxStateStoring :enabled="true" type="localStorage" storage-key="storageUretimGirisleri" />
           <DxGroupPanel :visible="true" emptyPanelText="Gruplanacak sütunlar buraya..." />
           <DxGrouping :auto-expand-all="true" />
           <DxFilterPanel :visible="true" />

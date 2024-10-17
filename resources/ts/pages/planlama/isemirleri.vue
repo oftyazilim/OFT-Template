@@ -93,10 +93,9 @@
             <DxLookup :data-source="getFilteredOz3" display-expr="OZELLIKKOD3" value-expr="OZELLIKKOD3" />
           </DxColumn>
           <DxColumn data-field="ISTKOD" caption="İSTASYON KODU" data-type="string" />
-          <DxColumn data-field="ISTTANIM" caption="İSTASYON ADI" data-type="string" :visible="false" />
 
 
-          <DxStateStoring :enabled="true" type="localStorage" storage-key="storage" />
+          <DxStateStoring :enabled="true" type="localStorage" storage-key="storageIsEmirleri" />
           <DxGroupPanel :visible="true" emptyPanelText="Gruplanacak sütunlar buraya..." />
           <DxGrouping :auto-expand-all="true" />
           <DxFilterPanel :visible="true" />

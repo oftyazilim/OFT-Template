@@ -62,7 +62,7 @@
           <DxColumn data-field="ISTASYONID" data-type="number" :visible="false" />
 
 
-          <DxStateStoring :enabled="true" type="localStorage" storage-key="storage" />
+          <DxStateStoring :enabled="true" type="localStorage" storage-key="storageMamulKartlari" />
           <DxGroupPanel :visible="true" emptyPanelText="Gruplanacak sütunlar buraya..." />
           <DxGrouping :auto-expand-all="true" />
           <DxFilterPanel :visible="true" />
