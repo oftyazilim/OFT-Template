@@ -7,7 +7,9 @@
   <title>OFT Yazılım - Üretim Takip</title>
   <link rel="stylesheet" type="text/css" href="{{ asset('loader.css') }}" />
   <link rel="stylesheet" data-theme="light" href="{{ asset('dx.carmine.css') }}">
-  {{-- <link rel="stylesheet" href="{{ asset('dx.all.js') }}"> --}}
+ <!-- Google Fonts bağlantısını başlık bölümüne ekleyin -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+{{-- <link rel="stylesheet" href="{{ asset('dx.all.js') }}"> --}}
 
   @vite(['resources/ts/main.ts'])
 </head>

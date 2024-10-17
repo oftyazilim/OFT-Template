@@ -7,6 +7,7 @@ use App\Models\StokHrkt;
 use App\Models\Emir;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Dashboards extends Controller
 {
@@ -58,12 +59,13 @@ class Dashboards extends Controller
 
   public function mesajAl()
   {
+    Log::info('sdfsdfsdfd');
     $mesaj = DB::table('OFTT_01_AYARLAR')->select('DEGER')->where('TANIM', 'MESAJ1')->first();
-
-    $sureler = [];
-    $sure =  DB::table('haftalikSureler')->select('planDakika', 'calismaDakika')->first();
-    $sureler['calisma'] = $sure->calismaDakika;
-    $sureler['plan'] = $sure->planDakika;
-    return response()->json(['mesaj' => $mesaj, 'sureler' => $sureler]);
+Log::info($mesaj->DEGER);
+    // $sureler = [];
+    // $sure =  DB::table('haftalikSureler')->select('planDakika', 'calismaDakika')->first();
+    // $sureler['calisma'] = $sure->calismaDakika;
+    // $sureler['plan'] = $sure->planDakika;
+    return response()->json(['mesaj' => $mesaj]);
   }
 }

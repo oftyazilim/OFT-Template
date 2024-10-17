@@ -57,6 +57,7 @@ declare module 'vue-router/auto-routes' {
     'components-button': RouteRecordInfo<'components-button', '/components/button', Record<never, never>, Record<never, never>>,
     'components-card-genel-durum': RouteRecordInfo<'components-card-genel-durum', '/components/CardGenelDurum', Record<never, never>, Record<never, never>>,
     'components-card-istasyon': RouteRecordInfo<'components-card-istasyon', '/components/CardIstasyon', Record<never, never>, Record<never, never>>,
+    'components-card-istasyon copy': RouteRecordInfo<'components-card-istasyon copy', '/components/CardIstasyon copy', Record<never, never>, Record<never, never>>,
     'components-chip': RouteRecordInfo<'components-chip', '/components/chip', Record<never, never>, Record<never, never>>,
     'components-dialog': RouteRecordInfo<'components-dialog', '/components/dialog', Record<never, never>, Record<never, never>>,
     'components-expansion-panel': RouteRecordInfo<'components-expansion-panel', '/components/expansion-panel', Record<never, never>, Record<never, never>>,

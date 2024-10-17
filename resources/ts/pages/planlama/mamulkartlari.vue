@@ -10,7 +10,7 @@
           :show-indicator="true" @row-updated="onRowUpdated" @row-inserted="onRowInserted" @init-new-row="initNewRow"
           @cell-prepared="onCellPrepared" :repaint-changes-only="true">
 
-          <DxEditing :allow-updating="true" :allow-adding="true" :allow-deleting="true" :use-icons="true" mode="popup">
+          <DxEditing :allow-updating="true" :allow-adding="true" :allow-deleting="true" :use-icons="true" mode="batch">
             <DxPopup :show-title="true" :shading="true" :width="800" :height="480" title="Mamul Kartı" />
             <DxForm>
               <DxItem :col-count="2" :col-span="2" item-type="group">
@@ -36,7 +36,7 @@
             <DxButton name="delete" icon="trash" />
           </DxColumn>
           <DxColumn data-field="AKTIF" caption="AKTİF" data-type="boolean" :visible="true" :width="60"
-            cell-template="aktifTemplate" />
+            />
           <DxColumn data-field="ID" data-type="number" caption="İE NO" :visible="true" sort-order="desc" :width="80" />
           <DxColumn data-field="KOD" caption="STOK KODU" data-type="string" />
           <DxColumn data-field="TANIM" caption="STOK ADI" data-type="string" :width="300" />
