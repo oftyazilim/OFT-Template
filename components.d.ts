@@ -28,6 +28,7 @@ declare module 'vue' {
     AppTextField: typeof import('./resources/ts/@core/components/app-form-elements/AppTextField.vue')['default']
     BuyNow: typeof import('./resources/ts/@core/components/BuyNow.vue')['default']
     CardAddEditDialog: typeof import('./resources/ts/components/dialogs/CardAddEditDialog.vue')['default']
+    CardComponent: typeof import('./resources/ts/components/CardComponent.vue')['default']
     CardEkleKalite2: typeof import('./resources/ts/components/dialogs/CardEkleKalite2.vue')['default']
     CardStatisticsHorizontal: typeof import('./resources/ts/@core/components/cards/CardStatisticsHorizontal.vue')['default']
     CardStatisticsVertical: typeof import('./resources/ts/@core/components/cards/CardStatisticsVertical.vue')['default']

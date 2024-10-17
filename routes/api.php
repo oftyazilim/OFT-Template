@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\planlama\Emirler;
 use App\Http\Controllers\planlama\Uretimler;
 use App\Http\Controllers\planlama\Mamuller;
+use App\Http\Controllers\dashboards\Dashboards;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,10 @@ use App\Http\Controllers\planlama\Mamuller;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+Route::get('/dashboards/montaj_01', [Dashboards::class, 'montaj_01'])->name('dashboards-montaj_01');
+Route::get('/dashboards/zamanal', [Dashboards::class, 'zamanAl'])->name('dashboards-zamanal');
+Route::get('/dashboards/miktaral', [Dashboards::class, 'miktarAl'])->name('dashboards-miktaral');
+Route::get('/dashboards/mesajal', [Dashboards::class, 'mesajAl'])->name('dashboards-mesajal');
 
 //* İş Emirleri -----------------------------------------------------------
 Route::get('/data', [Emirler::class, 'getData']);

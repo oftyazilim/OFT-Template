@@ -125,7 +125,7 @@
 
 
           <template #aktifTemplate="{ data }">
-            <template v-if="data.value === 0">
+            <template v-if="data.value === '0' || data.value === 0">
               <VIcon size="24" icon="tabler-x" />
             </template>
             <template v-else>
@@ -315,7 +315,7 @@ const onRowUpdated = (e: any) => {
   axios
     .put(`/api/data/${e.key}`, e.data, {
       headers: {
-        'X-User-Name': userData._rawValue.name,
+        'userID': userData._rawValue.id,
       }
     })
     .then((response) => {

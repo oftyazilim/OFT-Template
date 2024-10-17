@@ -89,7 +89,7 @@
           </DxSummary>
 
           <template #aktifTemplate="{ data }">
-            <template v-if="data.value === 0">
+            <template v-if="data.value === '0' || data.value === 0">
               <VIcon size="24" icon="tabler-x" />
             </template>
             <template v-else>

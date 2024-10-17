@@ -23,8 +23,12 @@ export default [
         title: 'Logistics',
         to: 'dashboards-logistics',
       },
+      { 
+        title: 'YTK Dashboard', 
+        to: 'dashboards-montaj-ytk', 
+      },
     ],
-    badgeContent: '5',
+    badgeContent: '6',
     badgeClass: 'bg-error',
   },
 ]

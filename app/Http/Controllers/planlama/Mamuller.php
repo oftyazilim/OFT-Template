@@ -15,7 +15,7 @@ class Mamuller extends Controller
   public function getData()
   {
     $data = Mamul::where('SILINDI', false)->get();
-    $toplam = $data->count('ID');
+    $toplam = $data->count();
 
     return response()->json([
       'data' => $data,

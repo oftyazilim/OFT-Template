@@ -20,7 +20,7 @@ class Emirler extends Controller
   public function getData()
   {
     $data = DB::table('OFTV_01_EMIRLERIS')->orderBy('URETIMSIRA', 'asc')->get();
-    $toplam = $data->count('ID');
+    $toplam = $data->count();
 
     return response()->json([
       'data' => $data,
@@ -292,14 +292,12 @@ class Emirler extends Controller
   {
 
     try {
-      $userName = $request->header('X-User-Name');
-      $isAktif = $request->AKTIF;
+      $operator = $request->header('userID');
+      $isAktif = $request->input('AKTIF') ? 1 : 0;
 
-      if (!$userName) {
+      if (!$operator) {
         return response()->json(['message' => 'Kullanıcı bilgisi eksik'], 400);
       }
-
-      $operator = User::where('name', $userName)->select('id')->first();
 
       $data = Emir::find($id);
 
@@ -312,7 +310,7 @@ class Emirler extends Controller
         'URUNID' => $request->URUNID,
         'PLANLANANMIKTAR' => $request->PLANLANANMIKTAR,
         'DURUM' => $request->DURUM,
-        'DUZENLEYENID' => $operator->id,
+        'DUZENLEYENID' => $operator,
         'DUZENTARIH' =>  now(),
         'NOTLAR' =>  $request->NOTLAR,
         'AKTIF' => intval($isAktif),

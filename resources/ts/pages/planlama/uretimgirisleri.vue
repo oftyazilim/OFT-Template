@@ -19,6 +19,8 @@
 
           <DxColumn data-field="ISTTANIM" caption="İSTASYON" data-type="string"  :width="170"/>
           <DxColumn data-field="ID" data-type="number" caption="ID" :visible="false" sort-order="desc" :width="80" />
+          <DxColumn data-field="OLUSTURANID" data-type="number" caption="KAYIT EDEN" :visible="true" :width="80" />
+          <DxColumn data-field="DUZENLEYENID" data-type="number" caption="DÜZENLEYEN" :visible="false" :width="80" />
           <DxColumn data-field="STOKID" caption="URUN ID" :visible="true" data-type="number" />
           <DxColumn data-field="KOD" caption="STOK KODU" data-type="string"
             :visible="true" :width="120"/>
@@ -27,7 +29,18 @@
           <DxColumn data-field="MMLGRPKOD" :width="250" caption="GRUP KODU"
             data-type="string"/>
           <DxColumn data-field="MIKTAR" caption="MİKTAR" data-type="number" :visible="true" :width="110" />
-          <DxColumn data-field="URETIMTARIH" caption="TARİH" data-type="date" :width="100" :visible="true" :format="{
+          <DxColumn data-field="URETIMTARIH" caption="KYT TARİHİ" data-type="date" :width="100" :visible="true" :format="{
+            formatter: (date) => {
+              const formattedDate = new Intl.DateTimeFormat('tr-TR', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+              }).format(new Date(date));
+
+              return formattedDate.replace(/\//g, '.');
+            }
+          }" />
+          <DxColumn data-field="DUZENTARIH" caption="DZN TARİHİ" data-type="date" :width="100" :visible="false" :format="{
             formatter: (date) => {
               const formattedDate = new Intl.DateTimeFormat('tr-TR', {
                 year: 'numeric',
