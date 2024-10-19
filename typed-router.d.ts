@@ -75,6 +75,7 @@ declare module 'vue-router/auto-routes' {
     'dashboards-crm': RouteRecordInfo<'dashboards-crm', '/dashboards/crm', Record<never, never>, Record<never, never>>,
     'dashboards-ecommerce': RouteRecordInfo<'dashboards-ecommerce', '/dashboards/ecommerce', Record<never, never>, Record<never, never>>,
     'dashboards-montaj-ytk': RouteRecordInfo<'dashboards-montaj-ytk', '/dashboards/montaj-ytk', Record<never, never>, Record<never, never>>,
+    'dashboards-montaj-ytk copy': RouteRecordInfo<'dashboards-montaj-ytk copy', '/dashboards/montaj-ytk copy', Record<never, never>, Record<never, never>>,
     'extensions-swiper': RouteRecordInfo<'extensions-swiper', '/extensions/swiper', Record<never, never>, Record<never, never>>,
     'extensions-tour': RouteRecordInfo<'extensions-tour', '/extensions/tour', Record<never, never>, Record<never, never>>,
     'forgot-password': RouteRecordInfo<'forgot-password', '/forgot-password', Record<never, never>, Record<never, never>>,

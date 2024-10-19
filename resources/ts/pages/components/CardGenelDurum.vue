@@ -9,18 +9,26 @@
             <VCardText class="pa-2">
               <div class="text-center rounded py-2">
                 <h2 class="baslik text-center pb-5" :style="{ color: 'orange' }">Genel Durum</h2>
-                <h4 class="fade-text1 mt-4 pt-3" :style="{ color: 'limegreen', fontSize: '70px', fontWeight: 'bold' }">
-                  <span class="yuzdeIsareti">%{{ durumYuzde }}</span>
+          
+          
+                <Transition name="fade" appear>
+
+                <h4 v-if="uretilenGorunur"  class="mt-4 pt-0 fade fade-in" :style="{ color: 'limegreen', fontSize: '70px', fontWeight: 'bold' }">
+                  <span class="yuzdeIsareti">{{ durumYuzde }}</span>
                 </h4>
-              </div>
+              </Transition>
+              <VProgressLinear :model-value="yuzdelik" height="15" color="warning" class="pa-0 mx-0" style="margin-block-end: -15px; margin-block-start: 28px;"/>
+          
+          
+            </div>
             </VCardText>
           </VCard>
         </VCol>
         <!-- Alt Mesaj Kartı (Kayan Yazı)-->
         <VCol md="10" sm="6">
           <VCard class="pa-0 " elevation="0">
-            <VCardText class="pt-1 border mx-0">
-              <div class="rounded p-0 pt-3">
+            <VCardText class="pt-4 pb-2 border mx-0">
+              <div class="rounded p-0 pt-4">
                 <div class="marquee">
                   <h1 class="marquee-text">{{ altMesaj }}</h1>
                 </div>
@@ -35,23 +43,55 @@
 </template>
 
 <script>
+import { rounded } from '@/views/demos/components/avatar/demoCodeAvatar';
 import { VRow } from 'vuetify/components';
 
 export default {
   props: {
     durumYuzde: {
-      type: Number,
-      default: 0
+      type: String,
+      default: '0'
     },
     altMesaj: {
       type: String,
       default: ""
-    }
+    },
+    uretilenGorunur: Boolean,
+    yuzdelik: {
+      type: Number,
+      required: true, // Yüzdeyi dışarıdan geçmek zorunda
+    },
   }
 };
 </script>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active,
+.fade-appear-active {
+  transition: opacity 1s ease-in-out;
+}
+
+.fade-enter,
+.fade-leave-to,
+.fade-appear {
+  opacity: 0;
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .border {
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -66,10 +106,10 @@ export default {
 
 .marquee-text {
   display: inline-block;
-  animation: scroll 15s linear infinite;
+  animation: scroll 10s linear infinite;
   color: #9acd32;
   font-family: 'Montserrat', sans-serif;
-  font-size: 50px;
+  font-size: 60px;
   line-height: 100px;
 }
 

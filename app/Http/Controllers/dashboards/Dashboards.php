@@ -59,13 +59,11 @@ class Dashboards extends Controller
 
   public function mesajAl()
   {
-    Log::info('sdfsdfsdfd');
     $mesaj = DB::table('OFTT_01_AYARLAR')->select('DEGER')->where('TANIM', 'MESAJ1')->first();
-Log::info($mesaj->DEGER);
-    // $sureler = [];
-    // $sure =  DB::table('haftalikSureler')->select('planDakika', 'calismaDakika')->first();
-    // $sureler['calisma'] = $sure->calismaDakika;
-    // $sureler['plan'] = $sure->planDakika;
-    return response()->json(['mesaj' => $mesaj]);
+    $sureler = [];
+    $sure =  DB::table('haftalikSureler')->select('planDakika', 'calismaDakika')->first();
+    $sureler['calisma'] = $sure->calismaDakika;
+    $sureler['plan'] = $sure->planDakika;
+    return response()->json(['mesaj' => $mesaj, 'sureler' => $sureler]);
   }
 }

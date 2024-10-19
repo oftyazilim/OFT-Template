@@ -4,7 +4,8 @@
       <VCard>
         <DxContextMenu :data-source="menuItems" :width="200" target="#gridContainer" @item-click="itemClick" />
         <DxDataGrid id="gridContainer" ref="dataGridRef" @content-ready="onContentReady" :data-source="gridData"
-          :show-borders="true" key-expr="ID" @editor-preparing="onEditorPreparing" :show-column-lines="true"
+          :show-borders="true" key-expr="ID" @editor-preparing="onEditorPreparing" :show-column-lines="false
+          "
           :show-row-lines="false" :row-alternation-enabled="false" :allow-column-reordering="true"
           @row-removed="onRowRemoved" :allow-column-resizing="true" @exporting="onExporting" :column-width="100"
           :show-indicator="true" @row-updated="onRowUpdated" @row-inserted="onRowInserted" @init-new-row="initNewRow"

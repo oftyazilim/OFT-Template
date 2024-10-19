@@ -20,7 +20,7 @@
             <h2 class="baslik text-center pb-2" :style="{ color: 'orange', fontFamily: 'Montserrat' }">Üretilen</h2>
             <Transition name="fade" appear>
               <div v-if="uretilenGorunur" class="miktar mt-0 pb-0 fade fade-in">
-                <h2 class="pb-2" :style="{ color: 'orange', fontFamily: 'Montserrat' }">{{ baslik }}</h2>
+                <span class="pb-2" :style="{ fontSize: '22px', color: 'orange', fontFamily: 'Montserrat' }">{{ baslik }}</span>
                 <p class="mt-6 pt-2" :style="{ color: 'rgb(139, 136, 236)', fontSize: '90px', fontWeight: 'bold' }">{{ uretilen }} </p>
               </div>
             </Transition>
@@ -43,7 +43,7 @@
             <p class="miktar-yuzde mt-6 pb-8" :style="{ color: 'yellow', fontSize: '70px', fontWeight: 'bold' }">
               {{ yuzde }}
             </p>
-            <VProgressLinear :value="yuzde" height="15" color="yellow" class="mt-3 pa-0 m-0" />
+            <VProgressLinear :model-value="ilerleme" height="15" color="warning" class="mt-3 pa-0 m-0" />
           </VCardText>
         </VCard>
       </VContainer>
@@ -63,6 +63,10 @@ export default {
     kalan: Number,
     yuzde: Number,
     uretilenGorunur: Boolean,
+    ilerleme: {
+      type: Number,
+      required: true,
+    },
   },
 };
 </script>

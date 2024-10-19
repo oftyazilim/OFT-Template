@@ -24,6 +24,7 @@ class Emir extends Model
     'PROSESNOT',
     'KAYITTARIH',
     'DUZENTARIH',
+    'GRCBITIS',
     'OLUSTURANID',
     'DUZENLEYENID',
     'OZELLIKKOD1',

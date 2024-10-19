@@ -10,7 +10,7 @@
           :show-indicator="true" @row-updated="onRowUpdated" @row-inserted="onRowInserted" @init-new-row="initNewRow"
           @cell-prepared="onCellPrepared" :repaint-changes-only="true">
 
-          <DxEditing :allow-updating="true" :allow-adding="true" :allow-deleting="true" :use-icons="true" mode="batch">
+          <DxEditing :allow-updating="true" :allow-adding="true" :allow-deleting="true" :use-icons="true" mode="popup">
             <DxPopup :show-title="true" :shading="true" :width="800" :height="480" title="Mamul Kartı" />
             <DxForm>
               <DxItem :col-count="2" :col-span="2" item-type="group">

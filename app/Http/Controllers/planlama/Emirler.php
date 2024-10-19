@@ -94,203 +94,8 @@ class Emirler extends Controller
     ]);
   }
 
-  // public function getFilteredOzellik1(Request $request)
-  // {
-  //   $istasyonId = $request->query('istasyonId');
-
-  //   $ozellik1 = DB::table('OFTT_01_MAMULLER')
-  //     ->join('OFTT_01_ISTASYONLAR', 'OFTT_01_MAMULLER.STGRPKOD', '=', 'OFTT_01_ISTASYONLAR.TANIM')
-  //     ->where('OFTT_01_ISTASYONLAR.ID', $istasyonId)
-  //     ->distinct()
-  //     ->select('OFTT_01_MAMULLER.OZELLIKKOD1')
-  //     ->get();
-  //   $mamuller = DB::table('OFTT_01_MAMULLER')
-  //     ->join('OFTT_01_ISTASYONLAR', 'OFTT_01_MAMULLER.STGRPKOD', '=', 'OFTT_01_ISTASYONLAR.TANIM')
-  //     ->where('OFTT_01_ISTASYONLAR.ID', $istasyonId)
-  //     ->select('OFTT_01_MAMULLER.KOD', 'OFTT_01_MAMULLER.TANIM')
-  //     ->get();
-
-  //   return response()->json([
-  //     'ozellik1' =>  $ozellik1,
-  //     'mamuller' => $mamuller
-  //   ], 200);
-  // }
-
-  // public function getFilteredMamulGrubu(Request $request)
-  // {
-  //   $istasyonId = $request->query('istasyonId');
-  //   $ozellik1 = $request->query('ozl1');
-
-
-  //   $mamulGrubu = DB::table('OFTT_01_MAMULLER')
-  //     ->join('OFTT_01_ISTASYONLAR', 'OFTT_01_MAMULLER.STGRPKOD', '=', 'OFTT_01_ISTASYONLAR.TANIM')
-  //     ->where('OFTT_01_ISTASYONLAR.ID', $istasyonId)
-  //     ->where('OFTT_01_MAMULLER.OZELLIKKOD1', $ozellik1)
-  //     ->distinct()
-  //     ->select('OFTT_01_MAMULLER.MMLGRPKOD')
-  //     ->get();
-
-  //   $mamuller = DB::table('OFTT_01_MAMULLER')
-  //     ->join('OFTT_01_ISTASYONLAR', 'OFTT_01_MAMULLER.STGRPKOD', '=', 'OFTT_01_ISTASYONLAR.TANIM')
-  //     ->where('OFTT_01_ISTASYONLAR.ID', $istasyonId)
-  //     ->where('OFTT_01_MAMULLER.OZELLIKKOD1', $ozellik1)
-  //     ->select('OFTT_01_MAMULLER.KOD', 'OFTT_01_MAMULLER.TANIM')
-  //     ->get();
-
-  //   return response()->json([
-  //     'mamulGrubu' =>  $mamulGrubu,
-  //     'mamuller' => $mamuller
-  //   ], 200);
-  // }
-
-  // public function getFilteredOzellik2(Request $request)
-  // {
-  //   $istasyonId = $request->query('istasyonId');
-  //   $ozellik1 = $request->query('ozellik1');
-  //   $mamulGrubu = $request->query('mamulGrubu');
-
-
-  //   $ozellik2 = DB::table('OFTT_01_MAMULLER')
-  //     ->join('OFTT_01_ISTASYONLAR', 'OFTT_01_MAMULLER.STGRPKOD', '=', 'OFTT_01_ISTASYONLAR.TANIM')
-  //     ->where('OFTT_01_ISTASYONLAR.ID', $istasyonId)
-  //     ->where('OFTT_01_MAMULLER.MMLGRPKOD', $mamulGrubu)
-  //     ->where('OFTT_01_MAMULLER.OZELLIKKOD1', $ozellik1)
-  //     ->distinct()
-  //     ->select('OFTT_01_MAMULLER.OZELLIKKOD2')
-  //     ->get();
-
-  //   $mamuller = DB::table('OFTT_01_MAMULLER')
-  //     ->join('OFTT_01_ISTASYONLAR', 'OFTT_01_MAMULLER.STGRPKOD', '=', 'OFTT_01_ISTASYONLAR.TANIM')
-  //     ->where('OFTT_01_ISTASYONLAR.ID', $istasyonId)
-  //     ->where('OFTT_01_MAMULLER.OZELLIKKOD1', $ozellik1)
-  //     ->where('OFTT_01_MAMULLER.MMLGRPKOD', $mamulGrubu)
-  //     ->select('OFTT_01_MAMULLER.KOD', 'OFTT_01_MAMULLER.TANIM')
-  //     ->get();
-
-  //   return response()->json([
-  //     'ozellik2' =>  $ozellik2,
-  //     'mamuller' => $mamuller
-  //   ], 200);
-  // }
-
-  // public function getFilteredOzellik3(Request $request)
-  // {
-  //   $istasyonId = $request->query('istasyonId');
-  //   $ozellik1 = $request->query('ozellik1');
-  //   $ozellik2 = $request->query('ozellik2');
-  //   $mamulGrubu = $request->query('mamulGrubu');
-
-
-  //   $ozellik3 = DB::table('OFTT_01_MAMULLER')
-  //     ->join('OFTT_01_ISTASYONLAR', 'OFTT_01_MAMULLER.STGRPKOD', '=', 'OFTT_01_ISTASYONLAR.TANIM')
-  //     ->where('OFTT_01_ISTASYONLAR.ID', $istasyonId)
-  //     ->where('OFTT_01_MAMULLER.MMLGRPKOD', $mamulGrubu)
-  //     ->where('OFTT_01_MAMULLER.OZELLIKKOD1', $ozellik1)
-  //     ->where('OFTT_01_MAMULLER.OZELLIKKOD2', $ozellik2)
-  //     ->distinct()
-  //     ->select('OFTT_01_MAMULLER.OZELLIKKOD3')
-  //     ->get();
-
-  //   $mamuller = DB::table('OFTT_01_MAMULLER')
-  //     ->join('OFTT_01_ISTASYONLAR', 'OFTT_01_MAMULLER.STGRPKOD', '=', 'OFTT_01_ISTASYONLAR.TANIM')
-  //     ->where('OFTT_01_ISTASYONLAR.ID', $istasyonId)
-  //     ->where('OFTT_01_MAMULLER.OZELLIKKOD1', $ozellik1)
-  //     ->where('OFTT_01_MAMULLER.OZELLIKKOD2', $ozellik2)
-  //     ->where('OFTT_01_MAMULLER.MMLGRPKOD', $mamulGrubu)
-  //     ->select('OFTT_01_MAMULLER.KOD', 'OFTT_01_MAMULLER.TANIM')
-  //     ->get();
-
-  //   return response()->json([
-  //     'ozellik3' =>  $ozellik3,
-  //     'mamuller' => $mamuller
-  //   ], 200);
-  // }
-
-  // public function getFilteredMamul(Request $request)
-  // {
-  //   $istasyonId = $request->query('istasyonId');
-  //   $ozellik1 = $request->query('ozellik1');
-  //   $ozellik2 = $request->query('ozellik2');
-  //   $ozellik3 = $request->query('ozellik3');
-  //   $mamulGrubu = $request->query('mamulGrubu');
-
-  //   $mamuller = DB::table('OFTT_01_MAMULLER')
-  //     ->join('OFTT_01_ISTASYONLAR', 'OFTT_01_MAMULLER.STGRPKOD', '=', 'OFTT_01_ISTASYONLAR.TANIM')
-  //     ->where('OFTT_01_ISTASYONLAR.ID', $istasyonId)
-  //     ->where('OFTT_01_MAMULLER.OZELLIKKOD1', $ozellik1)
-  //     ->where('OFTT_01_MAMULLER.OZELLIKKOD2', $ozellik2)
-  //     ->where('OFTT_01_MAMULLER.OZELLIKKOD3', $ozellik3)
-  //     ->where('OFTT_01_MAMULLER.MMLGRPKOD', $mamulGrubu)
-  //     ->select('OFTT_01_MAMULLER.KOD', 'OFTT_01_MAMULLER.TANIM')
-  //     ->get();
-
-  //   return response()->json([
-  //     'mamuller' => $mamuller
-  //   ], 200);
-  // }
-
-  // public function getMamul(Request $request)
-  // {
-  //   // $kod = $request->query('istasyonId');
-  //   $mamuller = DB::table('OFTT_01_MAMULLER')
-  //     // ->where('OFTT_01_MAMULLER.ISTASYONID', $kod)
-  //     // ->distinct()
-  //     ->get();
-
-  //   return response()->json([
-  //     'mamuller' => $mamuller
-  //   ], 200);
-  // }
-
-  // public function getMamulden(Request $request)
-  // {
-  //   $kod = $request->query('kod');
-  //   $tanim = $request->query('tanim');
-
-  //   $mamuller = DB::table('OFTT_01_MAMULLER')
-  //     ->where('OFTT_01_MAMULLER.KOD', $kod)
-  //     ->orWhere('OFTT_01_MAMULLER.TANIM', $tanim)
-  //     ->select(
-  //       'OFTT_01_MAMULLER.KOD',
-  //       'OFTT_01_MAMULLER.TANIM',
-  //       'OFTT_01_MAMULLER.OZELLIKKOD1',
-  //       'OFTT_01_MAMULLER.OZELLIKKOD2',
-  //       'OFTT_01_MAMULLER.OZELLIKKOD3',
-  //       'OFTT_01_MAMULLER.MMLGRPKOD'
-  //     )
-  //     ->get();
-
-  //   return response()->json([
-  //     'mamuller' => $mamuller
-  //   ], 200);
-  // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   public function update(Request $request, $id)
   {
-
     try {
       $operator = $request->header('userID');
       $isAktif = $request->input('AKTIF') ? 1 : 0;
@@ -312,11 +117,12 @@ class Emirler extends Controller
         'DURUM' => $request->DURUM,
         'DUZENLEYENID' => $operator,
         'DUZENTARIH' =>  now(),
+        'GRCBITIS' => $request->DURUM == 'Üretildi' ?  now()  : null,
         'NOTLAR' =>  $request->NOTLAR,
         'AKTIF' => intval($isAktif),
       ]);
 
-      return response()->json(['message' => 'Kayıt başarıyla silindi'], 200);
+      return response()->json(['message' => 'Kayıt başarııl'], 200);
     } catch (\Exception $e) {
       return response()->json(['message' => 'Sunucuda bir hata oluştu'], 500);
     }
@@ -492,9 +298,6 @@ class Emirler extends Controller
 
       $userID = User::where('name', $userName)->select('id')->first();
 
-      Log::info('Request: '.$request);
-
-
       $validatedData = $request->validate([
         'ISTASYONID' => 'required|integer',
         'PLANLANANMIKTAR' => 'required|numeric',
@@ -527,75 +330,6 @@ class Emirler extends Controller
     } catch (\Exception $e) {
       return response()->json(['message' => 'Sunucuda bir hata oluştu'], 500);
     }
-
-
-
-
-
-
-
-
-
-
-    // $kayitid = (int)$request->ID;
-    // $isAktif = $request->has('AKTIF') ? 1 : 0;
-
-    // $operator = User::where('name', Auth::user()->name)->select('id')->first();
-
-    // if ($operator) {
-    //   $operatorID = $operator->id;
-    // } else {
-    //   $operatorID = null;
-    // }
-
-
-    // $isttemp = DB::table('OFTT_01_ISTASYONLAR')
-    //   ->where('ID', $request->ISTKOD)
-    //   ->select('TANIM')
-    //   ->first();
-
-    // $mamultemp = DB::table('OFTT_01_MAMULLER')
-    //   ->where('STGRPKOD', $isttemp->TANIM)
-    //   ->where('KOD', $request->TANIM)
-    //   ->where('SILINDI', 0)
-    //   ->select('ID', 'TANIM', 'MMLGRPKOD', 'STGRPKOD')
-    //   ->first();
-
-    // if ($kayitid) {
-    //   $emir = Emir::updateOrCreate(
-    //     ['ID' => $kayitid],
-    //     [
-    //       'ISTASYONID' => $request->ISTKOD,
-    //       'URUNID' => $mamultemp->ID,
-    //       'PLANLANANMIKTAR' => $request->PLANLANANMIKTAR,
-    //       'DURUM' => $request->DURUM,
-    //       'DUZENLEYENID' => $operatorID,
-    //       'DUZENTARIH' =>  now(),
-    //       'NOTLAR' =>  $request->NOTLAR,
-    //       'URETIMSIRA' =>  $request->URETIMSIRA,
-    //       'AKTIF' => $request->has('AKTIF') ? 1 : 0,
-    //     ]
-    //   );
-    //   $this->yenidenSirala();
-    //   return response()->json('Updated');
-    // } else {
-    //   $emir = Emir::updateOrCreate(
-    //     ['ID' => $kayitid],
-    //     [
-    //       'ISTASYONID' => $request->ISTKOD,
-    //       'URUNID' => $mamultemp->ID,
-    //       'PLANLANANMIKTAR' => $request->PLANLANANMIKTAR,
-    //       'DURUM' => $request->DURUM,
-    //       'OLUSTURANID' => $operatorID,
-    //       'KAYITTARIH' =>  now(),
-    //       'NOTLAR' =>  $request->NOTLAR,
-    //       'URETIMSIRA' =>  $request->URETIMSIRA,
-    //       'AKTIF' => $request->has('AKTIF') ? 1 : 0,
-    //     ]
-    //   );
-    //   $this->yenidenSirala();
-    // return response()->json($emir->wasRecentlyCreated ? 'Created' : 'Updated');
-    // }
   }
 
   public function show(string $id)
