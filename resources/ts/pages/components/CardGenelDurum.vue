@@ -106,7 +106,7 @@ export default {
 
 .marquee-text {
   display: inline-block;
-  animation: scroll 10s linear infinite;
+  animation: scroll 12s linear infinite;
   color: #9acd32;
   font-family: 'Montserrat', sans-serif;
   font-size: 60px;

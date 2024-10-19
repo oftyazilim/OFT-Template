@@ -2,7 +2,7 @@
     <VRow no-gutters>
         <VCol md="4" lg sm="6" v-for="card in cards" :key="card.title">
             <CardIstasyon :uretilenGorunur="uretilenGorunur" :title="card.title" :plan="card.plan" :baslik="baslik"
-                :uretilen="card.uretim" :kalan="card.kalan" :yuzde="card.yuzde" :ilerleme="card.ilerleme"/>
+                :uretilen="card.uretim" :kalan="card.kalan" :yuzde="card.yuzde" :ilerleme="card.ilerleme" />
         </VCol>
     </VRow>
 
@@ -25,12 +25,12 @@ export default {
     data() {
         return {
             cards: [
-                { title: "BORU", plan: 0, uretilen: {h: 0, g: 0}, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
-                { title: "POMPA", plan: 0, uretilen: {h: 0, g: 0}, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
-                { title: "ŞASE", plan: 0, uretilen: {h: 0, g: 0}, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
-                { title: "SİFON", plan: 0, uretilen: {h: 0, g: 0}, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
-                { title: "VENTURİ", plan: 0, uretilen: {h: 0, g: 0}, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
-                { title: "GALVANİZ", plan: 0, uretilen: {h: 0, g: 0}, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
+                { title: "BORU", plan: 0, uretilen: { h: 0, g: 0 }, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
+                { title: "POMPA", plan: 0, uretilen: { h: 0, g: 0 }, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
+                { title: "ŞASE", plan: 0, uretilen: { h: 0, g: 0 }, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
+                { title: "SİFON", plan: 0, uretilen: { h: 0, g: 0 }, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
+                { title: "VENTURİ", plan: 0, uretilen: { h: 0, g: 0 }, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
+                { title: "GALVANİZ", plan: 0, uretilen: { h: 0, g: 0 }, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
             ],
             baslik: '...',
             durumYuzde: 0,
@@ -120,7 +120,7 @@ export default {
 
                 switch (ist) {
                     case 'BG-1':
-                        this.cards[0].plan =  plnPlnHafta;
+                        this.cards[0].plan = plnPlnHafta;
                         this.cards[0].kalan = kalan;
                         this.cards[0].yuzde = yuzde;
                         this.cards[0].ilerleme = yuzde;
@@ -209,15 +209,14 @@ export default {
 
                 setTimeout(() => {
                     this.index = (this.index + 1) % this.texts.length;
-                    
-                    this.baslik = this.textsBaslik[this.index];
-                    this.cards[0].uretim = this.cards[0].uretilen[this.index];
-                    this.cards[1].uretim = this.cards[1].uretilen[this.index];
-                    this.cards[2].uretim = this.cards[2].uretilen[this.index];
-                    this.cards[3].uretim = this.cards[3].uretilen[this.index];
-                    this.cards[4].uretim = this.cards[4].uretilen[this.index];
-                    this.cards[5].uretim = this.cards[5].uretilen[this.index];
 
+                    this.baslik = this.textsBaslik[this.index];
+                    this.cards[0].uretim = Math.floor(this.cards[0].uretilen[this.index]);
+                    this.cards[1].uretim = Math.floor(this.cards[1].uretilen[this.index]);
+                    this.cards[2].uretim = Math.floor(this.cards[2].uretilen[this.index]);
+                    this.cards[3].uretim = Math.floor(this.cards[3].uretilen[this.index]);
+                    this.cards[4].uretim = Math.floor(this.cards[4].uretilen[this.index]);
+                    this.cards[5].uretim = Math.floor(this.cards[5].uretilen[this.index]);
                     this.durumYuzde = this.texts[0]; //this.texts[this.index];
                     this.uretilenGorunur = true;
                 }, 1000);
