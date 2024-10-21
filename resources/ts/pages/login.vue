@@ -86,6 +86,8 @@ const login = async () => {
       },
     })
 
+console.log('response >>>', res);
+
     const { accessToken, userData, userAbilityRules } = res
 
     useCookie('userAbilityRules').value = userAbilityRules
@@ -163,20 +165,20 @@ const onSubmit = () => {
                   :append-inner-icon="isPasswordVisible ? 'tabler-eye-off' : 'tabler-eye'"
                   @click:append-inner="isPasswordVisible = !isPasswordVisible" />
 
-                <div class="d-flex align-center flex-wrap justify-space-between my-6">
+                <!-- <div class="d-flex align-center flex-wrap justify-space-between my-6">
                   <VCheckbox v-model="rememberMe" label="Beni hatırla" />
                   <RouterLink class="text-primary ms-2 mb-1" :to="{ name: 'forgot-password' }">
                     Şifremi unuttum?
                   </RouterLink>
-                </div>
+                </div> -->
 
-                <VBtn block type="submit">
+                <VBtn class="mt-8" block type="submit">
                   Giriş
                 </VBtn>
               </VCol>
 
               <!-- create account -->
-              <VCol cols="12" class="text-center">
+              <!-- <VCol cols="12" class="text-center">
                 <span>Yeni misiniz?</span>
                 <RouterLink class="text-primary ms-1" :to="{ name: 'register' }">
                   Yeni Hesap Oluştur
@@ -186,12 +188,12 @@ const onSubmit = () => {
                 <VDivider />
                 <span class="mx-4"> </span>
                 <VDivider />
-              </VCol>
+              </VCol> -->
 
               <!-- auth providers -->
-              <VCol cols="12" class="text-center">
+              <!-- <VCol cols="12" class="text-center">
                 <AuthProvider />
-              </VCol>
+              </VCol> -->
             </VRow>
           </VForm>
         </VCardText>

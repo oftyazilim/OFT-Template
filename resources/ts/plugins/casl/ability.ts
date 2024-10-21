@@ -8,3 +8,5 @@ export type Subjects = 'Post' | 'Comment' | 'all'
 export interface Rule { action: Actions; subject: Subjects }
 
 export const ability = createMongoAbility<[Actions, Subjects]>()
+
+console.log(ability)

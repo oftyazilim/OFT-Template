@@ -18,9 +18,11 @@ use App\Http\Controllers\dashboards\Dashboards;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/dashboards/montaj_01', [Dashboards::class, 'montaj_01'])->name('dashboards-montaj_01');
-Route::get('/dashboards/zamanal', [Dashboards::class, 'zamanAl'])->name('dashboards-zamanal');
-Route::get('/dashboards/miktaral', [Dashboards::class, 'miktarAl'])->name('dashboards-miktaral');
+//Route::get('/dashboards/montaj_01', [Dashboards::class, 'montaj_01']);
+Route::get('/dashboards/zamanal_ytk', [Dashboards::class, 'zamanAlYTK']);
+Route::get('/dashboards/miktaral_ytk', [Dashboards::class, 'miktarAlYTK']);
+Route::get('/dashboards/zamanal_esd', [Dashboards::class, 'zamanAlESD']);
+Route::get('/dashboards/miktaral_esd', [Dashboards::class, 'miktarAlESD']);
 Route::get('/dashboards/mesajal', [Dashboards::class, 'mesajAl']);
 
 //* İş Emirleri -----------------------------------------------------------

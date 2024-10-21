@@ -16,6 +16,10 @@
 import axios from 'axios';
 import CardIstasyon from '../components/CardIstasyon.vue';
 import CardGenelDurum from '../components/CardGenelDurum.vue';
+import { usePageTitleStore } from '@/stores/pageTitle';
+
+const pageTitleStore = usePageTitleStore();
+pageTitleStore.setTitle("ESD Dashboard");
 
 export default {
     components: {
@@ -25,34 +29,21 @@ export default {
     data() {
         return {
             cards: [
-                { title: "BORU", plan: 0, uretilen: { h: 0, g: 0 }, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
-                { title: "POMPA", plan: 0, uretilen: { h: 0, g: 0 }, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
-                { title: "ŞASE", plan: 0, uretilen: { h: 0, g: 0 }, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
-                { title: "SİFON", plan: 0, uretilen: { h: 0, g: 0 }, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
-                { title: "VENTURİ", plan: 0, uretilen: { h: 0, g: 0 }, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
-                { title: "GALVANİZ", plan: 0, uretilen: { h: 0, g: 0 }, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
-            ],
+                { title: "YER TİPİ", plan: 0, uretilen: { h: 0, g: 0 }, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
+                { title: "DUVAR TİPİ", plan: 0, uretilen: { h: 0, g: 0 }, uretim: 0, kalan: 0, yuzde: 0, ilerleme: 0 },
+              ],
             baslik: '...',
             durumYuzde: 0,
             uretilenGorunur: true, // Başlangıçta görünür
-            uretilenDegerler: [100, 200, 300], // Gösterilecek farklı değerler
             index: 0,
             texts: ['0', '...'],
             textsBaslik: ['(gunluk)', '(haftalık)'],
             textsMiktar1: ['0', '0'],
             textsMiktar2: ['0', '0'],
-            textsMiktar3: ['0', '0'],
-            textsMiktar4: ['0', '0'],
-            textsMiktar5: ['0', '0'],
-            textsMiktar6: ['0', '0'],
             sureler: ['0', '0'],
             miktarTexts: {
-                'BG-1': ['0', '0'],
-                'PG-1': ['0', '0'],
-                'ŞG-1': ['0', '0'],
-                'SG-1': ['0', '0'],
-                'VG-1': ['0', '0'],
-                'GG-1': ['0', '0'],
+                'Yer Tipi': ['0', '0'],
+                'Duvar Tipi': ['0', '0'],
             },
             currentTextIndex: 0,
             genelPlan: 0,
@@ -98,28 +89,28 @@ export default {
         },
         async miktarAl(ist) {
             try {
-                const response = await axios.get('/api/dashboards/miktaral', {
+                const response = await axios.get('/api/dashboards/miktaral_esd', {
                     params: {
                         param1: ist
                     }
                 });
-
+                
                 const plan = response.data;
                 let plnPlnHafta = plan.planHafta.toplam_planlanan || 0;
                 let plnUrtHafta = plan.planHafta.toplam_uretim || 0;
                 let urtGun = plan.urtGun.toplam_uretim || 0;
                 let urtHafta = plan.urtHafta.toplam_uretim || 0;
-
+                
                 this.genelPlan += parseInt(plnPlnHafta);
                 this.genelUretim += parseInt(urtHafta);
-
+                
                 const hedef = plnPlnHafta; // * (oran / 100);
                 const kalan = plnPlnHafta - plnUrtHafta;
                 let yuzde = 0;
                 if (urtHafta > 0 && hedef > 0) yuzde = Math.round((urtHafta / hedef) * 100);
-
+                
                 switch (ist) {
-                    case 'BG-1':
+                    case 'Yer Tipi':
                         this.cards[0].plan = plnPlnHafta;
                         this.cards[0].kalan = kalan;
                         this.cards[0].yuzde = yuzde;
@@ -127,7 +118,7 @@ export default {
                         this.cards[0].uretilen[0] = urtGun;
                         this.cards[0].uretilen[1] = urtHafta;
                         break;
-                    case 'PG-1':
+                    case 'Duvar Tipi':
                         this.cards[1].plan = plnPlnHafta;
                         this.cards[1].kalan = kalan;
                         this.cards[1].yuzde = yuzde;
@@ -135,38 +126,7 @@ export default {
                         this.cards[1].uretilen[0] = urtGun;
                         this.cards[1].uretilen[1] = urtHafta;
                         break;
-                    case 'ŞG-1':
-                        this.cards[2].plan = plnPlnHafta;
-                        this.cards[2].kalan = kalan;
-                        this.cards[2].yuzde = yuzde;
-                        this.cards[2].ilerleme = yuzde;
-                        this.cards[2].uretilen[0] = urtGun;
-                        this.cards[2].uretilen[1] = urtHafta;
-                        break;
-                    case 'SG-1':
-                        this.cards[3].plan = plnPlnHafta;
-                        this.cards[3].kalan = kalan;
-                        this.cards[3].yuzde = yuzde;
-                        this.cards[3].ilerleme = yuzde;
-                        this.cards[3].uretilen[0] = urtGun;
-                        this.cards[3].uretilen[1] = urtHafta;
-                        break;
-                    case 'VG-1':
-                        this.cards[4].plan = plnPlnHafta;
-                        this.cards[4].kalan = kalan;
-                        this.cards[4].yuzde = yuzde;
-                        this.cards[4].ilerleme = yuzde;
-                        this.cards[4].uretilen[0] = urtGun;
-                        this.cards[4].uretilen[1] = urtHafta;
-                        break;
-                    case 'GG-1':
-                        this.cards[5].plan = plnPlnHafta;
-                        this.cards[5].kalan = kalan;
-                        this.cards[5].yuzde = yuzde;
-                        this.cards[5].ilerleme = yuzde;
-                        this.cards[5].uretilen[0] = urtGun;
-                        this.cards[5].uretilen[1] = urtHafta;
-                        break;
+
                 }
             } catch (error) {
                 console.error('Plan çekme hatası:', error);
@@ -177,7 +137,7 @@ export default {
             this.genelUretim = 0;
             this.hedefGenel = 0;
 
-            const grupKodlari = ['BG-1', 'PG-1', 'ŞG-1', 'SG-1', 'VG-1', 'GG-1'];
+            const grupKodlari = ['Yer Tipi', 'Duvar Tipi'];
 
             // Tüm grupKodlari için miktarAl fonksiyonunu çağırıyoruz ve sonuçları bekliyoruz
             await Promise.all(grupKodlari.map(kod => this.miktarAl(kod)));
@@ -213,10 +173,6 @@ export default {
                     this.baslik = this.textsBaslik[this.index];
                     this.cards[0].uretim = Math.floor(this.cards[0].uretilen[this.index]);
                     this.cards[1].uretim = Math.floor(this.cards[1].uretilen[this.index]);
-                    this.cards[2].uretim = Math.floor(this.cards[2].uretilen[this.index]);
-                    this.cards[3].uretim = Math.floor(this.cards[3].uretilen[this.index]);
-                    this.cards[4].uretim = Math.floor(this.cards[4].uretilen[this.index]);
-                    this.cards[5].uretim = Math.floor(this.cards[5].uretilen[this.index]);
                     this.durumYuzde = this.texts[0]; //this.texts[this.index];
                     this.uretilenGorunur = true;
                 }, 1000);

@@ -3,6 +3,14 @@ export default [
     title: 'Dashboards',
     icon: { icon: 'tabler-smart-home' },
     children: [
+      { 
+        title: 'YTK Dashboard', 
+        to: 'dashboards-dashboard-ytk', 
+      },
+      { 
+        title: 'ESD Dashboard', 
+        to: 'dashboards-dashboard-esd', 
+      },
       {
         title: 'Analytics',
         to: 'dashboards-analytics',
@@ -23,12 +31,8 @@ export default [
         title: 'Logistics',
         to: 'dashboards-logistics',
       },
-      { 
-        title: 'YTK Dashboard', 
-        to: 'dashboards-montaj-ytk', 
-      },
     ],
-    badgeContent: '6',
+    badgeContent: '7',
     badgeClass: 'bg-error',
   },
 ]

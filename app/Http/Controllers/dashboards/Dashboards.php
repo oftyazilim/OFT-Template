@@ -11,19 +11,24 @@ use Illuminate\Support\Facades\Log;
 
 class Dashboards extends Controller
 {
-  public function montaj_01()
-  {
-    $pageConfigs = ['myLayout' => 'front'];
-    return view('content.dashboards.montaj_01', ['pageConfigs' => $pageConfigs]);
-  }
+  // public function montaj_01()
+  // {
+  //   $pageConfigs = ['myLayout' => 'front'];
+  //   return view('content.dashboards.montaj_01', ['pageConfigs' => $pageConfigs]);
+  // }
 
-  public function zamanAl()
+  public function zamanAlYTK()
   {
-    $veri = StokHrkt::select('KAYITTARIH')->where('SILINDI', false)->orderBy('ID', 'desc')->first();
+    $veri = DB::table('OFTV_01_ZAMAN_AL_YTK')->select('KAYITTARIH')->first();
+    return response()->json($veri);
+  }
+  public function zamanAlESD()
+  {
+    $veri = DB::table('OFTV_01_ZAMAN_AL_ESD')->select('KAYITTARIH')->first();
     return response()->json($veri);
   }
 
-  public function miktarAl(Request $request)
+  public function miktarAlYTK(Request $request)
   {
     $istasyon = $request->query('param1');
     $planHafta = DB::table('OFTV_01_EMIRLERISHFT')
@@ -40,6 +45,39 @@ class Dashboards extends Controller
       ->select(DB::raw('SUM(MIKTAR) as toplam_uretim'))
       ->first();
 
+    if ($planHafta) {
+      return response()->json([
+        'planHafta' => $planHafta,
+        'urtGun' => $urtGun,
+        'urtHafta' => $urtHafta,
+      ]);
+    } else {
+      return response()->json([
+        'message' => 'Internal Server Error',
+        'code' => 500,
+        'planHafta' => [],
+        'urtHafta' => [],
+        'urtGun' => [],
+      ]);
+    }
+  }
+  public function miktarAlESD(Request $request)
+  {
+    $istasyon = $request->query('param1');
+    $planHafta = DB::table('OFTV_01_EMIRLERISHFT')
+    ->where('OZELLIKKOD1', $istasyon)
+    ->select(DB::raw('SUM(PLANLANANMIKTAR) as toplam_planlanan, SUM(URETIMMIKTAR) as toplam_uretim'))
+    ->first();
+    $urtGun = DB::table('OFTV_01_STOKHRKTGUN')
+    ->where('OZELLIKKOD1', $istasyon)
+    ->select(DB::raw('SUM(MIKTAR) as toplam_uretim'))
+    ->first();
+    
+    $urtHafta = DB::table('OFTV_01_STOKHRKTHFT')
+    ->where('OZELLIKKOD1', $istasyon)
+    ->select(DB::raw('SUM(MIKTAR) as toplam_uretim'))
+    ->first();
+    
     if ($planHafta) {
       return response()->json([
         'planHafta' => $planHafta,
