@@ -5,8 +5,7 @@
         <DxContextMenu :data-source="menuItems" :width="200" target="#gridContainer" @item-click="itemClick" />
         <DxDataGrid id="gridContainer" ref="dataGridRef" @content-ready="onContentReady" :data-source="gridData"
           :show-borders="true" key-expr="ID" @editor-preparing="onEditorPreparing" :show-column-lines="false
-          "
-          :show-row-lines="false" :row-alternation-enabled="false" :allow-column-reordering="true"
+            " :show-row-lines="false" :row-alternation-enabled="false" :allow-column-reordering="true"
           @row-removed="onRowRemoved" :allow-column-resizing="true" @exporting="onExporting" :column-width="100"
           :show-indicator="true" @row-updated="onRowUpdated" @row-inserted="onRowInserted" @init-new-row="initNewRow"
           @cell-prepared="onCellPrepared" :repaint-changes-only="true">
@@ -98,7 +97,7 @@
 
           <DxStateStoring :enabled="true" type="localStorage" storage-key="storageIsEmirleri" />
           <DxGroupPanel :visible="true" emptyPanelText="Gruplanacak sütunlar buraya..." />
-          <DxGrouping :auto-expand-all="true" />
+          <DxGrouping :auto-expand-all="expandAll" />
           <DxFilterPanel :visible="true" />
           <DxLoadPanel :enabled="true" />
           <DxScrolling mode="virtual" column-rendering-mode="virtual" />
@@ -122,7 +121,15 @@
               display-format="{0} adet" />
           </DxSummary>
 
+          <DxToolbar>
+            <DxItem location="before" template="groupingTemplate" />
+            <DxItem location="before" template="collapseTemplate" />
+            <DxItem location="after" template="refreshTemplate" />
+            <DxItem name="columnChooserButton" />
+            <DxItem name="searchPanel"/>
+            <DxItem name="exportButton"/>
 
+          </DxToolbar>
 
           <template #aktifTemplate="{ data }">
             <template v-if="data.value === '0' || data.value === 0">
@@ -142,6 +149,16 @@
             </template>
           </template>
 
+          <template #groupingTemplate>
+            <DxSelectBox width="225" :items="groupingValues" :input-attr="{ 'aria-label': 'Group' }" display-expr="text"
+              value-expr="value" value="" @value-changed="toggleGroupColumn" />
+          </template>
+          <template #collapseTemplate>
+            <DxButton :text="expandAll ? 'Grupları Daralt' : 'Grupları Aç'" width="136" @click="toggleExpandAll" />
+          </template>
+          <template #refreshTemplate>
+            <DxButton icon="refresh" @click="refreshDataGrid" />
+          </template>
 
         </DxDataGrid>
       </VCard>
@@ -161,6 +178,9 @@
 import { totalVisible } from "@/views/demos/components/pagination/demoCodePagination";
 import axios from "axios";
 import { DxTextBoxTypes } from "devextreme-vue/text-box";
+import { DxSelectBox, DxSelectBoxTypes } from 'devextreme-vue/select-box';
+import { DxButton } from 'devextreme-vue/button';
+import query from 'devextreme/data/query';
 import { PositionConfig } from "devextreme/animation/position";
 import { onMounted, ref, computed } from 'vue';
 import { exportDataGrid } from "devextreme/excel_exporter";
@@ -179,7 +199,6 @@ import {
   DxPopup,
   DxForm,
   DxItem,
-  DxButton,
   DxColumnChooser,
   DxColumnChooserSearch,
   DxColumnChooserSelection,
@@ -198,6 +217,7 @@ import {
   DxSelection,
   DxStateStoring,
   DxSummary,
+  DxToolbar,
   DxTotalItem,
   DxColumnFixing,
 } from "devextreme-vue/data-grid";
@@ -214,7 +234,31 @@ const gridOz3 = ref<Oz3Data[]>([]);
 const gridIstasyon = ref<IstasyonData[]>([]);
 const dataGridRef = ref<DxDataGrid | null>(null);
 var mesaj = 'Aktif İş Emri Sayısı: '
+const expandAll = ref(true);
+const groupingValues = [{
+  value: '',
+  text: 'Gruplama Yok',
+}, {
+  value: 'ISTASYONID',
+  text: 'İstasyona Göre Grupla',
+}, {
+  value: 'MMLGRPKOD',
+  text: 'Modele Göre Grupla',
+}];
 
+const toggleGroupColumn = (e: DxSelectBoxTypes.ValueChangedEvent) => {
+  dataGridRef.value!.instance!.clearGrouping();
+  dataGridRef.value!.instance!.columnOption(e.value, 'groupIndex', 0);
+};
+
+const toggleExpandAll = () => {
+  expandAll.value = !expandAll.value;
+};
+
+const refreshDataGrid = () => {
+  getData()
+  notify(`Veriler Yenilendi`, 'success', 1500)
+};
 
 onMounted(() => {
   getVeri();
@@ -264,7 +308,7 @@ const modalParametre = computed(() => ({
 }));
 watch(isUretimGirisDialogVisible, (newValue, oldValue) => {
   if (!newValue && oldValue) {
-    
+
     getData();
   }
 });

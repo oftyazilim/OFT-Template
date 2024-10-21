@@ -70,7 +70,7 @@ export default {
     methods: {
         async zamanAl() {
             try {
-                const response = await axios.get('/api/dashboards/zamanal');
+                const response = await axios.get('/api/dashboards/zamanal_esd');
                 if (response.data.KAYITTARIH) {
                     const tarih = new Date(response.data.KAYITTARIH);
                     this.formatliTarihSaat = `${tarih.getDate()}.${tarih.getMonth() + 1}.${tarih.getFullYear()} - ${tarih.getHours()}:${tarih.getMinutes()}`;

@@ -112,7 +112,23 @@ return [
             'prefix_indexes' => true,
             // 'encrypt' => env('ADB_ENCRYPT', 'yes'),
             'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'true'),
-          ],
+        ],
+        'sqlsrvg' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DB_URL'),
+            // 'host' => env('DB_HOST', '192.168.54.107'),
+            'host' => env('DB_HOST', '192.168.1.215'),
+            'port' => env('DB_PORT', '1433'),
+            'database' => env('DB_DATABASE', 'OFT_GASSERO'),
+            'username' => env('DB_USERNAME', 'sa'),
+            // 'password' => env('DB_PASSWORD', 'reallyStrongPwd123'),
+            'password' => env('DB_PASSWORD', '?Ot2021!Om*'),
+            'charset' => env('DB_CHARSET', 'utf8'),
+            'prefix' => '',
+            'prefix_indexes' => true,
+            // 'encrypt' => env('ADB_ENCRYPT', 'yes'),
+            'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'true'),
+        ],
     ],
 
     /*
@@ -148,7 +164,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [

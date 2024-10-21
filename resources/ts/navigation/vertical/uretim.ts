@@ -11,8 +11,6 @@ export default [
       {
         title: "Mamül Kartları",
         to: "planlama-mamulkartlari",
-        action: "manage",
-        subject: "all",
       },
       {
         title: "Üretim Girişleri",
